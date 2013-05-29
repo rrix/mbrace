@@ -4,6 +4,12 @@
   </head>
   <body>
     <!-- pretty design goes here, lol -->
+    <h1>mbrace</h1>
+    {% if user.is_authenticated %}
+      <a href='/accounts/logout/'>Logout</a>
+    {% else %}
+      <a href='/accounts/register/'>New? Create an account!</a>
+    {% endif %}
     {% block content %}{% endblock %}
   </body>
 </html>
