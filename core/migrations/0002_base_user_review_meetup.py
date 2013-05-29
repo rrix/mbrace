@@ -13,8 +13,8 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user_in_need', self.gf('django.db.models.fields.related.ForeignKey')(related_name='requestor_set', to=orm['coremodels.User'])),
             ('user_delivering', self.gf('django.db.models.fields.related.ForeignKey')(related_name='deliverer_set', to=orm['coremodels.User'])),
-            ('review_1', self.gf('django.db.models.fields.related.ForeignKey')(related_name='requestor_review', to=orm['coremodels.Review'])),
-            ('review_2', self.gf('django.db.models.fields.related.ForeignKey')(related_name='deliverer_review', to=orm['coremodels.Review'])),
+            ('review_1', self.gf('django.db.models.fields.related.ForeignKey')(related_name='requestor_review_set', to=orm['coremodels.Review'])),
+            ('review_2', self.gf('django.db.models.fields.related.ForeignKey')(related_name='deliverer_review_set', to=orm['coremodels.Review'])),
         ))
         db.send_create_signal(u'coremodels', ['Meeting'])
 
@@ -32,8 +32,8 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('rating', self.gf('django.db.models.fields.SmallIntegerField')()),
             ('notes', self.gf('django.db.models.fields.TextField')()),
-            ('author', self.gf('django.db.models.fields.related.ForeignKey')(related_name='review_author', to=orm['coremodels.User'])),
-            ('owner', self.gf('django.db.models.fields.related.ForeignKey')(related_name='review_for', to=orm['coremodels.User'])),
+            ('author', self.gf('django.db.models.fields.related.ForeignKey')(related_name='review_author_set', to=orm['coremodels.User'])),
+            ('owner', self.gf('django.db.models.fields.related.ForeignKey')(related_name='review_for_set', to=orm['coremodels.User'])),
         ))
         db.send_create_signal(u'coremodels', ['Review'])
 
