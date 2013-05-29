@@ -4,4 +4,4 @@ from django.shortcuts import render
 
 @login_required
 def index(request):
-    return render('core/index.html')
+    return render(request, 'core/index.html')
