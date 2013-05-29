@@ -1,0 +1,30 @@
+mbrace
+======
+
+This is a hugging enablement platform. Hugging as a Service, if you will.
+People need hugs, that's a fact of life, but there are times when friends and
+family aren't available to provide them. This is where mbrace comes in. You
+need a hug, hopefully someone nearby needs one or is willing to provide one.
+
+Log in, send a hug request, someone reaches out to you. You meet up, hug it
+out, maybe have a quick chat about what's going on in your lives. When you're
+done, you give your hug buddy a rating and a review, to provide future patrons
+an idea of what they're in for.
+
+This is not a dating platform.
+
+This is not a hookup platform.
+
+This is about giving people some love when they need it.
+
+Hacking
+-------
+
+Use [virtualenv][1] for fuck's sake.
+
+    $ pip install -r requirements.txt
+    $ ./manage.py syncdb
+    $ ./manage.py runserver
+
+[1]: https://pypi.python.org/pypi/virtualenv
+
