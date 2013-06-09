@@ -126,12 +126,15 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
-    # Uncomment the next line to enable the admin:
+    'registration',
     'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'core'
 )
+
+ACCOUNT_ACTIVATION_DAYS = 7  # One-week activation window; you may, of course,
+                             # use a different value.
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

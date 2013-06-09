@@ -1,6 +1,7 @@
 Django==1.5.1
 South==0.8.1
 django-extensions==1.1.1
+django-registration==0.8
 flake8==2.0
 mccabe==0.2.1
 pep8==1.4.5
