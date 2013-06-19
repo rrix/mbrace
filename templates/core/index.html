@@ -1,3 +1,42 @@
 {% extends 'base.html' %}
 
+{% block content %}
+<h1>mbrace</h1>
+
+<p>
+  This is a hugging enablement platform. Hugging as a Service, if you will.
+  People need hugs, that's a fact of life, but there are times when friends and
+  family aren't available to provide them. This is where mbrace comes in. You
+  need a hug, hopefully someone nearby needs one or is willing to provide one.
+</p>
+
+<p>
+  Log in, send a hug request, someone reaches out to you. You meet up, hug it
+  out, maybe have a quick chat about what's going on in your lives. When you're
+  done, you give your hug buddy a rating and a review, to provide future patrons
+  an idea of what they're in for.
+</p>
+
+<p>
+  This is not a dating platform.
+</p>
+
+<p>
+  This is not a hookup platform.
+</p>
+
+<p>
+  This is about giving people some love when they need it.
+</p>
+
+<p>
+  Need some love? Have some extra to give out?
+  <a href='{% url "registration_register" %}'>Register an account and spread the love</a>.
+</p>
+
+<p>
+  Already a user? <a href='{% url "auth_login" %}'>Log in to your account</a>.
+</p>
+
+{% endblock %}
 
