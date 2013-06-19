@@ -1,7 +1,13 @@
 Django==1.5.1
+Markdown==2.3.1
+Pygments==1.6
 South==0.8.1
+djaml==1.1
 django-extensions==1.1.1
+django-registration==0.8
+django-scss==0.6.1
 flake8==2.0
+hamlpy==0.82.2
 mccabe==0.2.1
 pep8==1.4.5
 pyflakes==0.7.2
