@@ -8,26 +8,40 @@
       -block title
         MBrace
 
-    %link{'rel': 'stylesheet', 'href': '{% scss "foundation/scss/normalize.scss"%}'}
-    %link{'rel': 'stylesheet', 'href': '{% scss "foundation/scss/foundation.scss"%}'}
+    %link{'rel': 'stylesheet', 'href': '{{ STATIC_URL }}{% scss "foundation/scss/normalize.scss"%}'}
+    %link{'rel': 'stylesheet', 'href': '{{ STATIC_URL }}{% scss "foundation/scss/foundation.scss"%}'}
 
-    %link{'rel': 'stylesheet', 'href': '{% scss "scss/app.scss"%}'}
+    %link{'rel': 'stylesheet', 'href': '{{ STATIC_URL }}{% scss "scss/app.scss"%}'}
 
     %script{'src': "{{ STATIC_URL }}/foundation/js/vendor/custom.modernizr.js"}
-    %script{'src': "{{ STATIC_URL }}/foundation/js/foundation/foundation.min.js"}
+    %script{'src': "{{ STATIC_URL }}/foundation/js/foundation/foundation.js"}
   %body
     -block header
-      %h1 mbrace
-      -if user.is_authenticated
-        %a{'href': "{%url 'auth_logout'%}"} Logout
-      -else
-        %a{'href': "{%url 'registration_register'%}"} New? Create an account!
-        %a{'href': "{%url 'auth_login'%}"} Log in to your account
+      %nav.top-bar
+        %ul.title-area
+          %li.name
+            %h1
+              %a{href: "/"} mbrace
+          %li.toggle-topbar.menu-icon
+            %span Menu
+        %section.top-bar-section
+          %ul.right
+            -if user.is_authenticated
+              %li
+                %a{'href': "#"} My Dashboard
+              %li
+                %a{'href': "{%url 'auth_logout'%}"} Logout
+            -else
+              %li
+                %a{'class': 'button', 'href': "{%url 'registration_register'%}"} New? Create an account!
+              %li
+                %a{'href': "{%url 'auth_login'%}"} Log in to your account
+
     -block content
 
 :javascript
     document.write('<script src=' +
-    ('__proto__' in {} ? 'foundation/js/vendor/zepto' : 'foundation/js/vendor/jquery') +
+    ('__proto__' in {} ? '/static/foundation/js/vendor/zepto' : '/static/foundation/js/vendor/jquery') +
     '.js><\/script>')
 
     $(document).foundation();
