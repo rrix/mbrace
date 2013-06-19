@@ -1,0 +1,34 @@
+- load scss
+!!!
+%html
+  %head
+    %meta{'charset': 'utf-8'}
+    %meta{'name': 'viewport', content: 'width=device-width'}
+    %title
+      -block title
+        MBrace
+
+    %link{'rel': 'stylesheet', 'href': '{% scss "foundation/scss/normalize.scss"%}'}
+    %link{'rel': 'stylesheet', 'href': '{% scss "foundation/scss/foundation.scss"%}'}
+
+    %link{'rel': 'stylesheet', 'href': '{% scss "scss/app.scss"%}'}
+
+    %script{'src': "{{ STATIC_URL }}/foundation/js/vendor/custom.modernizr.js"}
+    %script{'src': "{{ STATIC_URL }}/foundation/js/foundation/foundation.min.js"}
+  %body
+    -block header
+      %h1 mbrace
+      -if user.is_authenticated
+        %a{'href': "{%url 'auth_logout'%}"} Logout
+      -else
+        %a{'href': "{%url 'registration_register'%}"} New? Create an account!
+        %a{'href': "{%url 'auth_login'%}"} Log in to your account
+    -block content
+
+:javascript
+    document.write('<script src=' +
+    ('__proto__' in {} ? 'foundation/js/vendor/zepto' : 'foundation/js/vendor/jquery') +
+    '.js><\/script>')
+
+    $(document).foundation();
+
