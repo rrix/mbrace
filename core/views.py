@@ -22,3 +22,7 @@ def register(request):
     return render(request, "registration/register.html", {
         'form': form,
     })
+
+@login_required
+def profile(request):
+    return render(request, "core/dashboard.html")
