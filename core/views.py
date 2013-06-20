@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from core.forms import UserCreateForm
+from core.forms import *
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth import login
@@ -15,6 +15,7 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             new_user = form.save()
+            Hugger.objects.create(user=new_user)
             login(request, new_user)
             return HttpResponseRedirect("/")
     else:
@@ -24,5 +25,17 @@ def register(request):
     })
 
 @login_required
-def profile(request):
+def dashboard(request):
     return render(request, "core/dashboard.html")
+
+@login_required
+def profile(request):
+    form = None
+    if request.method == 'POST':
+        form = ProfileForm(request.POST,instance=request.user.hugger)
+        if form.is_valid():
+            hugger = form.save()
+    else:
+        form = ProfileForm(instance=request.user.hugger)
+
+    return render(request, "core/profile.html", {'form': form})

@@ -8,6 +8,21 @@ class Hugger(models.Model):
     zip_code = models.CharField(max_length=5)
     last_location = models.CharField(max_length=20) # TODO: Pull GeoDjango in to the mix
     phone_number = models.CharField(max_length=20) # XXX: Make sure this is US style using https://docs.djangoproject.com/en/1.4/ref/contrib/localflavor/#django.contrib.localflavor.us.models.PhoneNumberField
+    email = models.EmailField(null=True)
+
+    def filled_out(self):
+        is_valid = True
+
+        if self.name == "":
+            is_valid = False
+        if self.zip_code == "":
+            is_valid = False
+        if self.email == "":
+            is_valid = False
+        if self.phone_number == "":
+            is_valid = False
+
+        return is_valid
 
 class Meeting(models.Model):
     user_in_need = models.ForeignKey('Hugger', related_name='requestor_set') 

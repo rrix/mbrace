@@ -1,0 +1,36 @@
+- extends 'base.html'
+
+- block title
+  Mbrace: My Profile
+
+- block content
+  .row
+    .large-12.medium-12.small-12.columns
+      %h1 My profile
+
+  .row
+    .large-12.medium-12.small-12.columns
+      %form{ 'method': 'post', 'action': '{% url "profile" %}'}
+        {% csrf_token %}
+        - for hidden in form.hidden_fields
+          {{ hidden }}
+
+        - for field in form.visible_fields
+          - if field.errors
+            - for error in field.errors
+              .error
+                %label{class: 'inline right'}= error.label
+                {{ field }}
+                %small
+                  {{ error | escape }}
+          -else
+            .row
+              .large-2.columns
+                %label{class: 'inline right'}
+                  {{field.label}}:
+              .large-10.columns
+                {{ field }}
+
+        .row
+          .large-3.columns.right
+            %input{type:'submit', value: 'Update my Profile', class: 'button expand'}
