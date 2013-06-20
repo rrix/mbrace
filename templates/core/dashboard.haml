@@ -10,17 +10,17 @@
 
   - if user
     - if user.hugger != None
-      - if user.hugger.name == "" or user.hugger.zip_code == "" or user.hugger.phone_number == ""
+      - if not user.hugger.filled_out
         .row
           .alert-box.alert
             You have not finished configuring your profile. You'll need to
-            %a{class: 'white', href: '/FIXME'} fill in your profile
+            %a{class: 'white', href: '{% url "profile" %}'} fill in your profile
             before doing anything fun.
-  - else
-    .row
-      .large-6.large-centered.medium-8.small-12.columns
-        %a{href:'/FIXME', class: 'button expand' }
-          I could use a hug.
+      - else
+        .row
+          .large-6.large-centered.medium-8.small-12.columns
+            %a{href:'/FIXME', class: 'button expand' }
+              I could use a hug.
 
   .row
     .large-6.medium-6.small-12.columns
@@ -28,3 +28,17 @@
 
     .large-6.medium-6.small-12.columns
       %h2 Nearby Activity
+
+      -if not user.hugger.filled_out
+        .alert-box.alert
+           You have not finished configuring your profile. You'll need to
+           %a{class: 'white', href: '{% url "profile" %}'} fill in your profile
+           before doing anything fun.
+
+  .row
+    .large-12.medium-12.small-12.columns
+      %h2
+        %small Other Actions
+  .row
+    .large-12.medium-12.small-12.columns
+      %a{class: 'button', href: '{% url "profile" %}'} Update my profile
