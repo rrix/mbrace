@@ -29,12 +29,6 @@
     .large-6.medium-6.small-12.columns
       %h2 Nearby Activity
 
-      -if not user.hugger.filled_out
-        .alert-box.alert
-           You have not finished configuring your profile. You'll need to
-           %a{class: 'white', href: '{% url "profile" %}'} fill in your profile
-           before doing anything fun.
-
   .row
     .large-12.medium-12.small-12.columns
       %h2
