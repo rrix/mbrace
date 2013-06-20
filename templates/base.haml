@@ -13,8 +13,10 @@
 
     %link{'rel': 'stylesheet', 'href': '{{ STATIC_URL }}{% scss "scss/app.scss"%}'}
 
+    %script{'src': "{{ STATIC_URL }}/foundation/js/vendor/zepto.js"}
     %script{'src': "{{ STATIC_URL }}/foundation/js/vendor/custom.modernizr.js"}
     %script{'src': "{{ STATIC_URL }}/foundation/js/foundation/foundation.js"}
+    %script{'src': "{{ STATIC_URL }}/foundation/js/foundation/foundation.topbar.js"}
   %body
     -block header
       %nav.top-bar
@@ -23,26 +25,24 @@
             %h1
               %a{href: "/"} mbrace
           %li.toggle-topbar.menu-icon
-            %span Menu
+            %a{href: '#'}
+              %span
+                Menu
         %section.top-bar-section
           %ul.right
             -if user.is_authenticated
               %li
-                %a{'href': "#"} My Dashboard
+                %a{'href': "{%url 'dashboard'%}"} My Dashboard
               %li
                 %a{'href': "{%url 'auth_logout'%}"} Logout
             -else
               %li
-                %a{'class': 'button', 'href': "{%url 'registration_register'%}"} New? Create an account!
+                %a{'class': 'button', 'href': "{%url 'registration_register' %}"} New? Create an account!
               %li
-                %a{'href': "{%url 'auth_login'%}"} Log in to your account
+                %a{'href': "{%url 'auth_login' %}"} Log in to your account
 
     -block content
 
 :javascript
-    document.write('<script src=' +
-    ('__proto__' in {} ? '/static/foundation/js/vendor/zepto' : '/static/foundation/js/vendor/jquery') +
-    '.js><\/script>')
-
     $(document).foundation();
 
