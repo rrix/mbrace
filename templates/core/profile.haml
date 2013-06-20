@@ -25,14 +25,42 @@
                   {{ error | escape }}
           -else
             .row
-              .large-2.columns
+              .large-2.small-2.columns
                 %label{class: 'inline right'}
                   {{field.label}}:
-              .large-10.columns
+              .large-10.small-10.columns
                 {{ field }}
 
         .row
-          .large-3.columns
+          .large-6.columns.push-3
+            %a{style: 'display: inline-block; padding-top: 0.625em', href: '#', 'data-reveal-id': 'why_required'} Why is this information required?
+          .large-3.small-6.columns.pull-6
             %input{type:'button', value: '&larr; Cancel', onclick: 'history.back()', class: 'button expand'}
-          .large-3.columns.right
+          .large-3.small-6.columns
             %input{type:'submit', value: 'Update my Profile', class: 'button expand'}
+
+  #why_required.reveal-modal
+    %h2 Why is this information required?
+
+    %p
+      This information is used in the following ways to provide the safest and most enjoyable experience within mbrace:
+
+      %ul
+        %li
+          %kbd Name
+          is not displayed publicly but is used to search for friends who use the application.
+        %li
+          %kbd Phone number
+          is not displayed publicly but is used to search for friends who use the application and to reach you in an
+          %a{href:'/faq#emergencies'} emergency.
+        %li
+          %kbd Email
+          is not displayed publicly but is used to send messages to you regarding your account, and is used to search for friends who use the application.
+        %li
+          %kbd ZIP Code
+          is used to show huggers near you in the case that your device does not support geolocation.
+
+      All of this information is completely safe with us, and we will never
+      %a{href: '/privacy_policy'} give this information to anyone
+      unless you explicitely give us the OK to do so, or we believe that there is a threat to your safety or the safety of those around you, including other huggers.
+    %a{class: 'close-reveal-modal'} &times;
