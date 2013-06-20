@@ -35,13 +35,20 @@
             -if user.is_authenticated
               %li
                 %a{'href': "{%url 'dashboard'%}"} My Dashboard
-              %li
-                %a{'href': "{%url 'auth_logout'%}"} Logout
             -else
               %li
                 %a{'class': 'button', 'href': "{%url 'registration_register' %}"} New? Create an account!
               %li
-                %a{'href': "{%url 'auth_login' %}"} Log in to your account
+                %a{'href': "{%url 'auth_login' %}"} Log in to existing account
+            %li.has-dropdown
+              %a{href: '/contactFIXME'} Support
+              %ul.dropdown
+                %li
+                  %a{href: '/FAQFIXME'} FAQ
+                  %a{href: '/privacy_policyFIXME'} Privacy Policy
+            -if user.is_authenticated
+              %li
+                %a{'href': "{%url 'auth_logout'%}"} Logout
 
     -block content
 
