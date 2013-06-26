@@ -24,15 +24,17 @@ def register(request):
         'form': form,
     })
 
+
 @login_required
 def dashboard(request):
     return render(request, "core/dashboard.html")
+
 
 @login_required
 def profile(request):
     form = None
     if request.method == 'POST':
-        form = ProfileForm(request.POST,instance=request.user.hugger)
+        form = ProfileForm(request.POST, instance=request.user.hugger)
         if form.is_valid():
             hugger = form.save()
     else:
