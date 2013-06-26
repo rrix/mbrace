@@ -34,3 +34,15 @@
       %h2
         %small Other Actions
       %a{class: 'button', href: '{% url "profile" %}'} Update my profile
+
+  :javascript
+    $(document).ready(function() {
+      if("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(function(pos) {
+          $.ajax({
+            url: '{% url "update_location" %}',
+            data: pos
+          });
+        });
+      }
+    });

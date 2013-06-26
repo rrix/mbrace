@@ -39,3 +39,8 @@ def profile(request):
         form = ProfileForm(instance=request.user.hugger)
 
     return render(request, "core/profile.html", {'form': form})
+
+
+@login_required
+def update_location(request):
+    pass
