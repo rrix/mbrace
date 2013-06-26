@@ -44,5 +44,11 @@ def profile(request):
 
 
 @login_required
+def new_hug(request):
+    hugger = request.user.hugger
+    new_hug = Meeting.objects.create(user_in_need=Hugger)
+
+
+@login_required
 def update_location(request):
     pass
