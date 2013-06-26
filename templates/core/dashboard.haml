@@ -29,11 +29,30 @@
     .large-6.medium-6.small-12.columns
       %h2 Nearby Activity
 
+      %ul.nearby-activities
+        - for hug in nearby
+          - if hug.user_delivering == null
+            %li
+              %strong
+                %a{href: "{% url 'profile' hug.user_in_need.user.username %}"}= hug.user_in_need.name
+              is in need of a
+              %a{href: '#'} hug
+              !
+          - else
+            %li
+              %strong
+                %a{href: "{% url 'profile' hug.user_in_need.user.username %}"}= hug.user_in_need.name
+              got a hug from
+              %strong
+                %a{href: "{% url 'profile' hug.user_delivering.user.username %}"}= hug.user_delivering
+              !
+
+
   .row
     .large-12.medium-12.small-12.columns
       %h2
         %small Other Actions
-      %a{class: 'button', href: '{% url "profile" %}'} Update my profile
+      %a{class: 'button', href: '{% url "profile" current_user.username %}'} Update my profile
 
   :javascript
     $(document).ready(function() {

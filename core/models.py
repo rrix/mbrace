@@ -36,6 +36,11 @@ class Meeting(models.Model):
     review_1 = models.ForeignKey('Review', related_name='requestor_review_set', null=True)
     review_2 = models.ForeignKey('Review', related_name='deliverer_review_set', null=True)
 
+    @classmethod
+    def nearby(self, user):
+        objects = Meeting.objects.filter(user_in_need__zip_code=user.hugger.zip_code)
+        return objects
+
 
 class Review(models.Model):
     rating = models.SmallIntegerField()

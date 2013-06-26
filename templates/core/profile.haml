@@ -10,7 +10,7 @@
 
   .row
     .large-12.medium-12.small-12.columns
-      %form{ 'method': 'post', 'action': '{% url "profile" %}'}
+      %form{ 'method': 'post', 'action': '{% url "profile" username %}'}
         {% csrf_token %}
         - for hidden in form.hidden_fields
           {{ hidden }}

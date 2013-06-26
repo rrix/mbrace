@@ -3,7 +3,7 @@ from django.shortcuts import render
 from core.forms import *
 from core.models import *
 from django.contrib.auth.forms import UserCreationForm
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import login
 
 import json
@@ -30,7 +30,9 @@ def register(request):
 
 @login_required
 def dashboard(request):
-    return render(request, "core/dashboard.html")
+    nearby = Meeting.nearby(request.user)
+    return render(request, "core/dashboard.html",
+                  {'nearby': nearby, 'current_user': request.user})
 
 
 @login_required
@@ -51,6 +53,8 @@ def new_hug(request):
     hugger = request.user.hugger
     new_hug = Meeting.objects.create(user_in_need=hugger)
 
+    return HttpResponse("")
+
 
 @login_required
 def update_location(request):
@@ -58,3 +62,5 @@ def update_location(request):
     json_encoded = json.dumps(request.GET)
     hugger.last_location = json_encoded
     hugger.save
+
+    return HttpResponse("")
