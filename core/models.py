@@ -6,11 +6,16 @@ class Hugger(models.Model):
     user = models.OneToOneField(User)
     name = models.CharField(max_length=20)
     zip_code = models.CharField(max_length=5)
-    last_location = models.CharField(max_length=20) # TODO: Pull GeoDjango in to the mix
-    phone_number = models.CharField(max_length=20) # XXX: Make sure this is US style using https://docs.djangoproject.com/en/1.4/ref/contrib/localflavor/#django.contrib.localflavor.us.models.PhoneNumberField
+    # TODO: Pull GeoDjango in to the mix
+    last_location = models.CharField(max_length=100)
+    # XXX: Make sure this is US style using https://docs.djangoproject.com/en/1.4/ref/contrib/localflavor/#django.contrib.localflavor.us.models.PhoneNumberField
+    phone_number = models.CharField(max_length=20)
     email = models.EmailField(null=True)
 
     def filled_out(self):
+        """This is basically a validation, but not enforced at the model
+        level, just at the few level. Makes sure that name, zip email and
+        phone number are added to a profile"""
         is_valid = True
 
         if self.name == "":
@@ -24,11 +29,13 @@ class Hugger(models.Model):
 
         return is_valid
 
+
 class Meeting(models.Model):
-    user_in_need = models.ForeignKey('Hugger', related_name='requestor_set') 
+    user_in_need = models.ForeignKey('Hugger', related_name='requestor_set')
     user_delivering = models.ForeignKey('Hugger', related_name='deliverer_set')
     review_1 = models.ForeignKey('Review', related_name='requestor_review_set')
     review_2 = models.ForeignKey('Review', related_name='deliverer_review_set')
+
 
 class Review(models.Model):
     rating = models.SmallIntegerField()
@@ -36,4 +43,3 @@ class Review(models.Model):
 
     author = models.ForeignKey('Hugger', related_name='review_author_set')
     owner = models.ForeignKey('Hugger', related_name='review_for_set')
-

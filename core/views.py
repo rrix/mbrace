@@ -5,6 +5,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect
 from django.contrib.auth import login
 
+import json
+
 
 def index(request):
     return render(request, 'core/index.html')
@@ -51,4 +53,7 @@ def new_hug(request):
 
 @login_required
 def update_location(request):
-    pass
+    hugger = request.user.hugger
+    json_encoded = json.dumps(request.GET)
+    hugger.last_location = json_encoded
+    hugger.save
