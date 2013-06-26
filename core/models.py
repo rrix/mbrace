@@ -14,7 +14,7 @@ class Hugger(models.Model):
 
     def filled_out(self):
         """This is basically a validation, but not enforced at the model
-        level, just at the few level. Makes sure that name, zip email and
+        level, just at the view level. Makes sure that name, zip email and
         phone number are added to a profile"""
         is_valid = True
 
