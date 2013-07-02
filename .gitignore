@@ -1,2 +1,4 @@
 *.pyc
 /static/SCSS_CACHE
+
+mbrace/local_settings.py
