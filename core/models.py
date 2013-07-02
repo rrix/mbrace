@@ -1,16 +1,16 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser, UserManager
+from django_facebook.models import FacebookProfileModel
 
 
-class Hugger(models.Model):
-    user = models.OneToOneField(User)
+class Hugger(AbstractUser, FacebookProfileModel):
+    objects = UserManager()
     name = models.CharField(max_length=20)
     zip_code = models.CharField(max_length=5)
     # TODO: Pull GeoDjango in to the mix
     last_location = models.CharField(max_length=100)
     # XXX: Make sure this is US style using https://docs.djangoproject.com/en/1.4/ref/contrib/localflavor/#django.contrib.localflavor.us.models.PhoneNumberField
     phone_number = models.CharField(max_length=20)
-    email = models.EmailField(null=True)
 
     def filled_out(self):
         """This is basically a validation, but not enforced at the model
@@ -38,7 +38,7 @@ class Meeting(models.Model):
 
     @classmethod
     def nearby(self, user):
-        objects = Meeting.objects.filter(user_in_need__zip_code=user.hugger.zip_code)
+        objects = Meeting.objects.filter(user_in_need__zip_code=user.zip_code)
         return objects
 
 

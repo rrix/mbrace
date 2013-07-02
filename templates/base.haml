@@ -19,6 +19,9 @@
     %script{'src': "{{ STATIC_URL }}/foundation/js/foundation/foundation.topbar.js"}
     %script{'src': "{{ STATIC_URL }}/foundation/js/foundation/foundation.alerts.js"}
     %script{'src': "{{ STATIC_URL }}/foundation/js/foundation/foundation.reveal.js"}
+    %link{href: "{{ STATIC_URL }}css/facebook.css", type: "text/css", rel: "stylesheet", media: "all"}
+    {% include 'django_facebook/_facebook_js.html' %}
+    -block head
   %body
     -block header
       %nav.top-bar
@@ -37,9 +40,12 @@
                 %a{'href': "{%url 'dashboard'%}"} My Dashboard
             -else
               %li
-                %a{'class': 'button', 'href': "{%url 'registration_register' %}"} New? Create an account!
-              %li
-                %a{'href': "{%url 'auth_login' %}"} Log in to existing account
+                %form{action: '{% url "facebook_connect" %}?facebook_login=1', method: 'post'}
+                  %a{ class: 'button', href: 'javascript:void(0);', onclick: 'F.connect(this.parentNode);'} Sign In
+                  %input{ type: "hidden", value: "{% url 'dashboard' %}", name: "next"}
+                  %input{ type: "hidden", value: "{% url 'dashboard' %}", name: "register_next"}
+                  %input{ type: "hidden", value: "{{ request.path }}", name: "error_next"}
+                  {% csrf_token %}
             %li.has-dropdown
               %a{href: '/contactFIXME'} Support
               %ul.dropdown
