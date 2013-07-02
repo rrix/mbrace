@@ -36,16 +36,22 @@ def dashboard(request):
 
 
 @login_required
-def profile(request):
-    form = None
-    if request.method == 'POST':
-        form = ProfileForm(request.POST, instance=request.user.hugger)
-        if form.is_valid():
-            hugger = form.save()
-    else:
-        form = ProfileForm(instance=request.user.hugger)
+def profile(request, username):
+    # XXX I suppose I need to audit this?
+    if username == request.user.username:
+        form = None
+        if request.method == 'POST':
+            form = ProfileForm(request.POST, instance=request.user.hugger)
+            if form.is_valid():
+                hugger = form.save()
+        else:
+            form = ProfileForm(instance=request.user.hugger)
 
-    return render(request, "core/profile.html", {'form': form})
+        return render(request, "core/profile.html",
+                      {'form': form, 'username': username})
+    else:
+        render(request, "core/show_profile.html",
+               {'user': User.objects.find(username=username)})
 
 
 @login_required
