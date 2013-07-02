@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from core.forms import *
 from core.models import *
@@ -57,8 +58,8 @@ def profile(request, uid):
         return render(request, "core/profile.html",
                       {'form': form, 'username': uid})
     else:
-        render(request, "core/show_profile.html",
-               {'user': Hugger.objects.get(uid)})
+        return render(request, "core/show_profile.html",
+                      {'user': Hugger.objects.get(uid)})
 
 
 @login_required
@@ -66,7 +67,7 @@ def new_hug(request):
     hugger = request.user
     new_hug = Meeting.objects.create(user_in_need=hugger)
 
-    return HttpResponse("")
+    return HttpResponseRedirect(reverse('edit_hug', args=(new_hug.id,)))
 
 
 @login_required
@@ -77,3 +78,11 @@ def update_location(request):
     hugger.save
 
     return HttpResponse("")
+
+@login_required
+def edit_hug(request, hug_id):
+    hug_id = int(hug_id)
+    hug = Meeting.objects.get(id=hug_id)
+
+    return render(request, "core/edit_hug.html",
+                  {'hug': hug})

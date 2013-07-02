@@ -35,7 +35,7 @@
               %strong
                 %a{href: "{% url 'profile' hug.user_in_need.id %}"}= hug.user_in_need.name
               is in need of a
-              %a{href: '#'} hug
+              %a{href: "{% url 'edit_hug' hug.id %}"} hug
               !
           - else
             %li
