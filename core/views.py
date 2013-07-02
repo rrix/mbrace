@@ -6,6 +6,7 @@ from core.models import *
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import login
+from gmapi import maps
 
 import json
 
@@ -72,17 +73,56 @@ def new_hug(request):
 
 @login_required
 def update_location(request):
-    hugger = request.user.hugger
+    hugger = request.user
     json_encoded = json.dumps(request.GET)
     hugger.last_location = json_encoded
-    hugger.save
+    hugger.save()
 
     return HttpResponse("")
+
 
 @login_required
 def edit_hug(request, hug_id):
     hug_id = int(hug_id)
     hug = Meeting.objects.get(id=hug_id)
 
+    u1_location_data = json.loads(hug.user_in_need.last_location)
+    u1_lat = float(u1_location_data['coords[latitude]'])
+    u1_lon = float(u1_location_data['coords[longitude]'])
+
+    gmap = maps.Map(opts={
+        'center': maps.LatLng(u1_lat, u1_lon),
+        'mapTypeId': maps.MapTypeId.ROADMAP,
+        'zoom': 16,
+        'mapTypeControlOptions': {
+            'style': maps.MapTypeControlStyle.DROPDOWN_MENU
+        },
+    })
+
+    # Marker for the User in Need
+    user1_marker = maps.Marker(opts={
+        'map': gmap,
+        'position': maps.LatLng(u1_lat, u1_lon)
+        #, 'icon': static asset to image
+    })
+
+    if hug.user_delivering is not None:
+        u2_location_data = json.loads(hug.user_delivering.last_location)
+        u2_lat = float(u2_location_data['coords[latitude]'])
+        u2_lon = float(u2_location_data['coords[longitude]'])
+        # set icon here
+    else:
+        u2_location_data = json.loads(request.user.last_location)
+        u2_lat = float(u2_location_data['coords[latitude]'])
+        u2_lon = float(u2_location_data['coords[longitude]'])
+        # set icon here
+
+    user2_marker = maps.Marker(opts={
+        'map': gmap,
+        'position': maps.LatLng(u2_lat, u2_lon)
+        #, 'icon': static asset to image
+    })
+
     return render(request, "core/edit_hug.html",
-                  {'hug': hug})
+                  {'hug':  hug,
+                   'form': MapForm(initial={'map': gmap})})

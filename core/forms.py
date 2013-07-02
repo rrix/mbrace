@@ -2,6 +2,11 @@ from django import forms
 from django.contrib.localflavor.us import forms as flavorforms
 from django.contrib.auth.models import User
 from core.models import Hugger
+from gmapi.forms.widgets import GoogleMap
+
+
+class MapForm(forms.Form):
+    map = forms.Field(widget=GoogleMap())
 
 
 class ProfileForm(forms.ModelForm):

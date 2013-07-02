@@ -114,12 +114,13 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admin',
+    'django.contrib.admindocs',
     'django_extensions',
     'django_scss',
     'django_facebook',
+    'gmapi',
     'registration',
-    'django.contrib.admin',
-    'django.contrib.admindocs',
     'core',
 )
 
