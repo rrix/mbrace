@@ -36,27 +36,34 @@ def dashboard(request):
 
 
 @login_required
-def profile(request, username):
+def profile(request, uid):
     # XXX I suppose I need to audit this?
-    if username == request.user.username:
+    uid = int(uid)
+    if uid == request.user.id:
+        form_to_use = None
         form = None
+        if request.user.name is not None:
+            form_to_use = PartialProfileForm
+        else:
+            form_to_use = ProfileForm
+
         if request.method == 'POST':
-            form = ProfileForm(request.POST, instance=request.user.hugger)
+            form = form_to_use(request.POST, instance=request.user)
             if form.is_valid():
                 hugger = form.save()
         else:
-            form = ProfileForm(instance=request.user.hugger)
+            form = form_to_use(instance=request.user)
 
         return render(request, "core/profile.html",
-                      {'form': form, 'username': username})
+                      {'form': form, 'username': uid})
     else:
         render(request, "core/show_profile.html",
-               {'user': User.objects.find(username=username)})
+               {'user': Hugger.objects.get(uid)})
 
 
 @login_required
 def new_hug(request):
-    hugger = request.user.hugger
+    hugger = request.user
     new_hug = Meeting.objects.create(user_in_need=hugger)
 
     return HttpResponse("")

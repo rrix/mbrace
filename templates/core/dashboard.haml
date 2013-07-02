@@ -9,18 +9,17 @@
       %h1 My Dashboard
 
   - if user
-    - if user.hugger != None
-      - if not user.hugger.filled_out
-        .row
-          .alert-box.alert
-            You have not finished configuring your profile. You'll need to
-            %a{class: 'white', href: '{% url "profile" %}'} fill in your profile
-            before doing anything fun.
-      - else
-        .row
-          .large-6.large-centered.medium-8.small-12.columns
-            %a{href: "{% url 'new_hug' %}", class: 'button expand' }
-              I could use a hug.
+    - if not user.filled_out
+      .row
+        .alert-box.alert
+          You have not finished configuring your profile. You'll need to
+          %a{class: 'white', href: '{% url "profile" current_user.nickname %}'} fill in your profile
+          before doing anything fun.
+    - else
+      .row
+        .large-6.large-centered.medium-8.small-12.columns
+          %a{href: "{% url 'new_hug' %}", class: 'button expand' }
+            I could use a hug.
 
   .row
     .large-6.medium-6.small-12.columns
@@ -34,17 +33,17 @@
           - if hug.user_delivering == null
             %li
               %strong
-                %a{href: "{% url 'profile' hug.user_in_need.user.username %}"}= hug.user_in_need.name
+                %a{href: "{% url 'profile' hug.user_in_need.id %}"}= hug.user_in_need.name
               is in need of a
               %a{href: '#'} hug
               !
           - else
             %li
               %strong
-                %a{href: "{% url 'profile' hug.user_in_need.user.username %}"}= hug.user_in_need.name
+                %a{href: "{% url 'profile' hug.user_in_need.id %}"}= hug.user_in_need.name
               got a hug from
               %strong
-                %a{href: "{% url 'profile' hug.user_delivering.user.username %}"}= hug.user_delivering
+                %a{href: "{% url 'profile' hug.user_delivering.id %}"}= hug.user_delivering
               !
 
 
@@ -52,7 +51,7 @@
     .large-12.medium-12.small-12.columns
       %h2
         %small Other Actions
-      %a{class: 'button', href: '{% url "profile" current_user.username %}'} Update my profile
+      %a{class: 'button', href: '{% url "profile" current_user.id %}'} Update my profile
 
   :javascript
     $(document).ready(function() {

@@ -7,5 +7,5 @@ urlpatterns = patterns('',
     url(r'^dashboard/',       views.dashboard,       name='dashboard'),
     url(r'^new_hug/',         views.new_hug,         name='new_hug'),
     url(r'^update_location/', views.update_location, name='update_location'),
-    url(r'^profile/(?P<username>\w+)/', views.profile,  name='profile'),
+    url(r'^profile/(?P<uid>\d+)/', views.profile,  name='profile'),
 )
