@@ -159,3 +159,17 @@ def edit_hug(request, hug_id):
         messages.add_messages(request, messages.ERROR,
                               "This page doesn't belong to you!" )
         return HttpResponseRedirect(reverse('dashboard'))
+
+@login_required
+def new_message(request, hug_id):
+    hug = Meeting.objects.get(id=int(hug_id))
+    if (request.user == hug.user_in_need) or (request.user == hug.user_delivering):
+        message = Message.objects.create(text=request.POST['text'],
+                                         meeting=hug,
+                                         sender=request.user)
+        message.save()
+        return HttpResponseRedirect(reverse('edit_hug', args=(int(hug_id),)))
+    else:
+        messages.add_message(request, messages.ERROR,
+                             'You cannot send messages to that meeting!')
+        return HttpResponseRedirect(reverse('dashboard'))

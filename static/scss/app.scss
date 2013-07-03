@@ -1,3 +1,5 @@
+@import "foundation/scss/foundation/variables", "foundation/scss/foundation/components/global", "foundation/scss/foundation/components/panels";
+
 .row.full-width {
   margin-top: -30px;
   padding-top: 2em;
@@ -7,5 +9,13 @@
 
 .center {
   text-align: center;
+}
+
+.huggee-chat {
+  @include panel(pink, 10px)
+}
+
+.hugger-chat {
+  @include panel(#37D1FF, 10px)
 }
 
