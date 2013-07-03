@@ -32,9 +32,15 @@ class Hugger(AbstractUser, FacebookProfileModel):
 
 class Meeting(models.Model):
     user_in_need = models.ForeignKey('Hugger', related_name='requestor_set')
-    user_delivering = models.ForeignKey('Hugger', related_name='deliverer_set', null=True)
-    review_1 = models.ForeignKey('Review', related_name='requestor_review_set', null=True)
-    review_2 = models.ForeignKey('Review', related_name='deliverer_review_set', null=True)
+    user_delivering = models.ForeignKey('Hugger',
+                                        related_name='deliverer_set',
+                                        null=True)
+    review_1 = models.ForeignKey('Review',
+                                 related_name='requestor_review_set',
+                                 null=True)
+    review_2 = models.ForeignKey('Review',
+                                 related_name='deliverer_review_set',
+                                 null=True)
 
     @classmethod
     def nearby(self, user):
