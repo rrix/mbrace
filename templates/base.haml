@@ -56,6 +56,13 @@
               %li
                 %a{'href': "{%url 'auth_logout'%}"} Logout
 
+    - if messages
+      .row
+        %ul.messages
+          -for message in messages
+            %div{ class: '{{message.tags}} alert-box'}
+              {{ message }}
+
     -block content
 
 :javascript
