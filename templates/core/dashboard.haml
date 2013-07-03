@@ -56,10 +56,12 @@
   :javascript
     $(document).ready(function() {
       if("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(function(pos) {
-          $.ajax({
-            url: '{% url "update_location" %}',
-            data: pos
+        setInterval(60000, function() {
+          navigator.geolocation.getCurrentPosition(function(pos) {
+            $.ajax({
+              url: '{% url "update_location" %}',
+              data: pos
+            });
           });
         });
       }
