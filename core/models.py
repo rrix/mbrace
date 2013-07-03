@@ -48,3 +48,9 @@ class Review(models.Model):
 
     author = models.ForeignKey('Hugger', related_name='review_author_set')
     owner = models.ForeignKey('Hugger', related_name='review_for_set')
+
+
+class Message(models.Model):
+    text = models.CharField(max_length=140)
+    sender = models.ForeignKey('Hugger')
+    meeting = models.ForeignKey('Meeting')
