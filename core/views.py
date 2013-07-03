@@ -7,6 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import login
 from gmapi import maps
+from django.contrib import messages
 
 import json
 
@@ -86,43 +87,75 @@ def edit_hug(request, hug_id):
     hug_id = int(hug_id)
     hug = Meeting.objects.get(id=hug_id)
 
-    u1_location_data = json.loads(hug.user_in_need.last_location)
-    u1_lat = float(u1_location_data['coords[latitude]'])
-    u1_lon = float(u1_location_data['coords[longitude]'])
+    # Let's make sure someone we know owns this object!
+    if (hug.user_delivering and request.user == hug.user_delivering) or (request.user == hug.user_in_need):
+        if 'action' in request.GET:
+            action = request.GET['action']
+            # do something interesting here
+            if action == 'join':
+                if request.user.has_open_hugs():
+                    messages.add_message(request, messages.ERROR,
+                                         'You are already meeting up with someone for hugs!')
+                else:
+                    hug.user_delivering = request.user
+                    hug.save()
+                    messages.add_message(request, messages.INFO,
+                                         'Cool, we will let %s know!' % hug.user_in_need.nickname)
+            if action == 'delete':
+                if request.user == hug.user_in_need:
+                    hug.delete()
+                    messages.add_message(request, messages.INFO,
+                                          'Alright, let us know if you need a hug, okay?')
+                return HttpResponseRedirect(reverse('dashboard'))
+            if action == 'clear_deliverer':
+                hug.user_delivering == None
+                hug.save()
+                messages.add_message(request, messages.INFO,
+                                     'Cool, we will let %s know!' % hug.user_in_need.nickname)
+                return HttpResponseRedirect(reverse('dashboard'))
 
-    gmap = maps.Map(opts={
-        'center': maps.LatLng(u1_lat, u1_lon),
-        'mapTypeId': maps.MapTypeId.ROADMAP,
-        'zoom': 16,
-        'mapTypeControlOptions': {
-            'style': maps.MapTypeControlStyle.DROPDOWN_MENU
-        },
-    })
+        u1_location_data = json.loads(hug.user_in_need.last_location)
+        u1_lat = float(u1_location_data['coords[latitude]'])
+        u1_lon = float(u1_location_data['coords[longitude]'])
 
-    # Marker for the User in Need
-    user1_marker = maps.Marker(opts={
-        'map': gmap,
-        'position': maps.LatLng(u1_lat, u1_lon)
-        #, 'icon': static asset to image
-    })
+        gmap = maps.Map(opts={
+            'center': maps.LatLng(u1_lat, u1_lon),
+            'mapTypeId': maps.MapTypeId.ROADMAP,
+            'zoom': 16,
+            'mapTypeControlOptions': {
+                'style': maps.MapTypeControlStyle.DROPDOWN_MENU
+            },
+        })
 
-    if hug.user_delivering is not None:
-        u2_location_data = json.loads(hug.user_delivering.last_location)
-        u2_lat = float(u2_location_data['coords[latitude]'])
-        u2_lon = float(u2_location_data['coords[longitude]'])
-        # set icon here
+        # Marker for the User in Need
+        user1_marker = maps.Marker(opts={
+            'map': gmap,
+            'position': maps.LatLng(u1_lat, u1_lon)
+            #, 'icon': static asset to image
+        })
+
+        if hug.user_delivering is not None:
+            u2_location_data = json.loads(hug.user_delivering.last_location)
+            u2_lat = float(u2_location_data['coords[latitude]'])
+            u2_lon = float(u2_location_data['coords[longitude]'])
+            # set icon here
+        else:
+            u2_location_data = json.loads(request.user.last_location)
+            u2_lat = float(u2_location_data['coords[latitude]'])
+            u2_lon = float(u2_location_data['coords[longitude]'])
+            # set icon here
+
+        user2_marker = maps.Marker(opts={
+            'map': gmap,
+            'position': maps.LatLng(u2_lat, u2_lon)
+            #, 'icon': static asset to image
+        })
+
+        return render(request, "core/edit_hug.html",
+                      {'hug':  hug,
+                       'form': MapForm(initial={'map': gmap}),
+                       'current_user': request.user})
     else:
-        u2_location_data = json.loads(request.user.last_location)
-        u2_lat = float(u2_location_data['coords[latitude]'])
-        u2_lon = float(u2_location_data['coords[longitude]'])
-        # set icon here
-
-    user2_marker = maps.Marker(opts={
-        'map': gmap,
-        'position': maps.LatLng(u2_lat, u2_lon)
-        #, 'icon': static asset to image
-    })
-
-    return render(request, "core/edit_hug.html",
-                  {'hug':  hug,
-                   'form': MapForm(initial={'map': gmap})})
+        messages.add_messages(request, messages.ERROR,
+                              "This page doesn't belong to you!" )
+        return HttpResponseRedirect(reverse('dashboard'))

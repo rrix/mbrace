@@ -1,14 +1,35 @@
 - extends "base.html"
 
 - block title
-  Mbrace: Edit Hug
+  Mbrace: Let's hug it out
+
+- block head
 
 - block content
   .row
     .large-6.small-12.columns
-      {{ form.map }}
-      {{ form.media.js }}
-    .large-6.columns
       .row
         .large-12.small-12.columns
-          %h2 Let's hug it out.
+          %h2.center Let's hug it out.
+      .row
+        .large-12.small-12.columns.large-centered.small-centered
+          - if hug.user_delivering == None and hug.user_in_need != current_user
+            %a{class: 'button expand', href: "{% url 'edit_hug' hug.id %}?action=join"} I've got this
+          - if hug.user_delivering == current_user
+            %a{class: 'button expand', href: "{% url 'edit_hug' hug.id %}?action=clear_deliverer"} Relinquish Hug
+          - if hug.user_in_need == current_user
+            %a{class: 'button expand', href: "{% url 'edit_hug' hug.id %}?action=delete"} I don't need a hug any more
+            - if hug.user_delivering
+              .panel
+                %strong
+                  It looks like
+                  %strong
+                    %a{href: '{% url "profile" hug.user_delivering %}'}= hug.user_delivering.nickname
+                  has offered to give you a hug!
+                %a{class: 'button expand', href: "{% url 'edit_hug' hug.id %}?action=clear_deliverer"} I'd prefer someone else.
+
+    .large-6.small-12.columns
+      {{ form.map }}
+      <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+      <script type="text/javascript" src="/static/gmapi/js/jquery.gmapi.js"></script>
+
