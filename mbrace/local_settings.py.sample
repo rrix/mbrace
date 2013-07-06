@@ -14,3 +14,6 @@ DATABASES = {
 
 FACEBOOK_APP_ID = ""
 FACEBOOK_APP_SECRET = ""
+
+BROKER_URL  = "amqp://"
+BACKEND_URL = "django://"

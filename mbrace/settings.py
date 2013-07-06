@@ -17,6 +17,9 @@ MANAGERS = ADMINS
 # See https://docs.djangoproject.com/en/1.4/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = []
 
+import djcelery
+djcelery.setup_loader()
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -119,9 +122,11 @@ INSTALLED_APPS = (
     'django_extensions',
     'django_scss',
     'django_facebook',
+    'djcelery',
     'gmapi',
     'registration',
     'core',
+    'celeryqueue',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
