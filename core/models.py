@@ -3,7 +3,6 @@ from django.contrib.auth.models import AbstractUser, UserManager
 from django_facebook.models import FacebookProfileModel
 
 from django_facebook import signals
-
 from celeryqueue.tasks import update_friends
 
 
@@ -62,3 +61,14 @@ class Message(models.Model):
     text = models.CharField(max_length=140)
     sender = models.ForeignKey('Hugger')
     meeting = models.ForeignKey('Meeting')
+
+
+def associate_friends_from_opengraph(sender, user, friends, current_friends, inserted_friends, **kwargs):
+    """
+    associate_friends_from_opengraph
+
+    Call out to celeryqueue to update the user relationships of friends
+    """
+    update_friends.delay(user=instance)
+
+signals.facebook_post_store_friends.connect(associate_friends_from_opengraph, sender=Hugger)
