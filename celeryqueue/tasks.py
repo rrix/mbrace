@@ -7,7 +7,7 @@ def update_friends(user):
     user.friend_objects.clear()
     for friend in user.friends():
         try:
-            user_object = core.models.Hugger.objects.get(facebook_id=friend.facebook_id)[0]
+            user_object = core.models.Hugger.objects.get(facebook_id=friend.facebook_id)
             user.friend_objects.add(user_object)
         except:
             user_object = None
