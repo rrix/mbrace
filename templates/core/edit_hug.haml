@@ -36,11 +36,11 @@
                 .large-2.small-2.columns
                   %button{ class: 'small expand', type: 'submit'} Send
               {% csrf_token %}
-            - for message in hug.message_set.all
-              - if message.user == hug.user_in_need
-                .huggee-chat= message.text
-              - else
-                .hugger-chat= message.text
+          - for message in hug.message_set.all
+            - if message.user == hug.user_in_need
+              .huggee-chat= message.text
+            - else
+              .hugger-chat= message.text
 
     .large-6.small-12.columns
       {{ form.map }}
