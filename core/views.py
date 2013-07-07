@@ -34,11 +34,14 @@ def register(request):
 @login_required
 def dashboard(request):
     def get_hugs(friend):
-        return friend.requestor_set.all().order_by('-id')[0]
+        all_hugs = friend.requestor_set.all().order_by('-id')
+        if len(all_hugs) > 0:
+            return all_hugs[0]
+        return None
 
     nearby = Meeting.nearby(request.user)
     friends = request.user.friend_objects.order_by('last_hug_date')
-    friend_hugs = map(get_hugs, friends)
+    friend_hugs = filter(None, map(get_hugs, friends))
 
     return render(request, "core/dashboard.html",
                   {'nearby': nearby,
