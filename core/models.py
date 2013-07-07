@@ -3,7 +3,8 @@ from django.contrib.auth.models import AbstractUser, UserManager
 from django_facebook.models import FacebookProfileModel
 
 from django_facebook import signals
-from celeryqueue.tasks import update_friends
+#from celeryqueue.tasks import update_friends
+import celeryqueue.tasks
 
 
 class Hugger(AbstractUser, FacebookProfileModel):
@@ -13,6 +14,8 @@ class Hugger(AbstractUser, FacebookProfileModel):
     last_location = models.CharField(max_length=100)
     # XXX: Make sure this is US style using https://docs.djangoproject.com/en/1.4/ref/contrib/localflavor/#django.contrib.localflavor.us.models.PhoneNumberField
     phone_number = models.CharField(max_length=20)
+
+    friends = models.ManyToManyField('Hugger')
 
     def filled_out(self):
         """This is basically a validation, but not enforced at the model
@@ -69,6 +72,6 @@ def associate_friends_from_opengraph(sender, user, friends, current_friends, ins
 
     Call out to celeryqueue to update the user relationships of friends
     """
-    update_friends.delay(user=instance)
+    celeryqueue.tasks.update_friends.delay(user=user)
 
-signals.facebook_post_store_friends.connect(associate_friends_from_opengraph, sender=Hugger)
+signals.facebook_post_store_friends.connect(associate_friends_from_opengraph)
