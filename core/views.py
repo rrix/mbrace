@@ -34,8 +34,11 @@ def register(request):
 @login_required
 def dashboard(request):
     nearby = Meeting.nearby(request.user)
+    friends = Hugger.objects.filter(friend_objects__contains=request.user)
     return render(request, "core/dashboard.html",
-                  {'nearby': nearby, 'current_user': request.user})
+                  {'nearby': nearby,
+                   'current_user': request.user,
+                   'friends': friends})
 
 
 @login_required
