@@ -13,7 +13,7 @@
       .row
         .alert-box.alert
           You have not finished configuring your profile. You'll need to
-          %a{class: 'white', href: '{% url "profile" current_user.nickname %}'} fill in your profile
+          %a{class: 'white', href: '{% url "profile" current_user.id %}'} fill in your profile
           before doing anything fun.
     - else
       .row
@@ -33,14 +33,14 @@
           - if hug.user_delivering == null
             %li
               %strong
-                %a{href: "{% url 'profile' hug.user_in_need.id %}"}= hug.user_in_need.name
+                %a{href: "{% url 'profile' hug.user_in_need.id %}"}= hug.user_in_need.username
               is in need of a
               %a{href: "{% url 'edit_hug' hug.id %}"} hug
               !
           - else
             %li
               %strong
-                %a{href: "{% url 'profile' hug.user_in_need.id %}"}= hug.user_in_need.name
+                %a{href: "{% url 'profile' hug.user_in_need.id %}"}= hug.user_in_need.username
               got a hug from
               %strong
                 %a{href: "{% url 'profile' hug.user_delivering.id %}"}= hug.user_delivering
@@ -56,13 +56,20 @@
   :javascript
     $(document).ready(function() {
       if("geolocation" in navigator) {
-        setInterval(60000, function() {
+        var locationize = function() {
           navigator.geolocation.getCurrentPosition(function(pos) {
             $.ajax({
               url: '{% url "update_location" %}',
               data: pos
             });
+          }, function() {
+            alert("Geolocation is unavailable; Please make sure that your click the 'Share Location' button in your browser!");
+          }, {
+            enableHighAccuracy: true,
+            timelout: 60000
           });
-        });
+        }
+        setInterval( locationize, 60000);
+        locationize();
       }
     });

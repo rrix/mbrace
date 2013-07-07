@@ -12,7 +12,7 @@ class MapForm(forms.Form):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Hugger
-        fields = ['name', 'phone_number', 'email', 'zip_code']
+        fields = [ 'phone_number', 'email', 'zip_code']
 
 
 class PartialProfileForm(forms.ModelForm):
@@ -24,7 +24,7 @@ class PartialProfileForm(forms.ModelForm):
     """
     class Meta:
         model = Hugger
-        fields = ['name', 'phone_number', 'email', 'zip_code']
+        fields = [ 'phone_number', 'email', 'zip_code']
 
 
 class UserCreateForm(forms.Form):

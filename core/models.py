@@ -9,7 +9,6 @@ from celeryqueue.tasks import update_friends
 
 class Hugger(AbstractUser, FacebookProfileModel):
     objects = UserManager()
-    name = models.CharField(max_length=20)
     zip_code = models.CharField(max_length=5)
     # TODO: Pull GeoDjango in to the mix
     last_location = models.CharField(max_length=100)
@@ -22,8 +21,6 @@ class Hugger(AbstractUser, FacebookProfileModel):
         phone number are added to a profile"""
         is_valid = True
 
-        if self.name == "":
-            is_valid = False
         if self.zip_code == "":
             is_valid = False
         if self.email == "":

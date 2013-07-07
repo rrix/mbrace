@@ -45,10 +45,7 @@ def profile(request, uid):
     if uid == request.user.id:
         form_to_use = None
         form = None
-        if request.user.name is not None:
-            form_to_use = PartialProfileForm
-        else:
-            form_to_use = ProfileForm
+        form_to_use = ProfileForm
 
         if request.method == 'POST':
             form = form_to_use(request.POST, instance=request.user)
