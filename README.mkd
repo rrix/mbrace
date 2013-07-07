@@ -20,14 +20,19 @@ This is about giving people some love when they need it.
 Hacking
 -------
 
-Use [virtualenv][1] for fuck's sake.
+Use [virtualenv][1] for fuck's sake. You'll need to install rabbitmq-server,
+as well, and make sure it's running; it's used for background processing of
+various facebook API things like fetching and syncing user friend lists.
 
     $ pip install -r requirements.txt
     $ git submodule init
     $ git submodule update
     $ ./manage.py syncdb
     $ ./manage.py migrate
-    $ ./manage.py runserver
+    $ # Run these on different shells if you're sane
+    $ ./manage.py runserver &
+    $ ./manage.py celerybeat &
+    $ ./manage.py celery worker
 
 [1]: https://pypi.python.org/pypi/virtualenv
 
