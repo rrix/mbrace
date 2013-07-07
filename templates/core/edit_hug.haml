@@ -24,7 +24,7 @@
                 %strong
                   It looks like
                   %strong
-                    %a{href: '{% url "profile" hug.user_delivering %}'}= hug.user_delivering.nickname
+                    %a{href: '{% url "profile" hug.user_delivering.id %}'}= hug.user_delivering.username
                   has offered to give you a hug!
                 %a{class: 'button expand', href: "{% url 'edit_hug' hug.id %}?action=clear_deliverer"} I'd prefer someone else.
           - if current_user = hug.user_in_need or current_user = hug.user_delivering
@@ -37,7 +37,7 @@
                   %button{ class: 'small expand', type: 'submit'} Send
               {% csrf_token %}
           - for message in hug.message_set.all
-            - if message.user == hug.user_in_need
+            - if message.sender == hug.user_in_need
               .huggee-chat= message.text
             - else
               .hugger-chat= message.text

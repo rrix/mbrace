@@ -116,7 +116,8 @@ def edit_hug(request, hug_id):
                     hug.user_delivering = request.user
                     hug.save()
                     messages.add_message(request, messages.INFO,
-                                         'Cool, we will let %s know!' % hug.user_in_need.nickname)
+                                         'Cool, we will let %s know!' % hug.user_in_need.username)
+                return HttpResponseRedirect(reverse('edit_hug', args=(hug_id,)))
             if action == 'delete':
                 if request.user == hug.user_in_need:
                     hug.delete()
@@ -127,7 +128,7 @@ def edit_hug(request, hug_id):
                 hug.user_delivering == None
                 hug.save()
                 messages.add_message(request, messages.INFO,
-                                     'Cool, we will let %s know!' % hug.user_in_need.nickname)
+                                     'Cool, we will let %s know!' % hug.user_in_need.username)
                 return HttpResponseRedirect(reverse('dashboard'))
 
         u1_location_data = json.loads(hug.user_in_need.last_location)
