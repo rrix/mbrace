@@ -35,7 +35,7 @@
           .large-6.columns.push-3
             %a{style: 'display: inline-block; padding-top: 0.625em', href: '#', 'data-reveal-id': 'why_required'} Why is this information required?
           .large-3.small-6.columns.pull-6
-            %input{type:'button', value: '&larr; Cancel', onclick: 'history.back()', class: 'button expand'}
+            %a{  href: '{% url "dashboard" %}', class: 'button expand'} &larr; Cancel
           .large-3.small-6.columns
             %input{type:'submit', value: 'Update my Profile', class: 'button expand'}
 
