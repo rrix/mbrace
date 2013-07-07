@@ -66,7 +66,12 @@ def new_hug(request):
     hugger = request.user
     new_hug = Meeting.objects.create(user_in_need=hugger)
 
-    return HttpResponseRedirect(reverse('edit_hug', args=(new_hug.id,)))
+    if hugger.last_location != "":
+        return HttpResponseRedirect(reverse('edit_hug', args=(new_hug.id,)))
+    else:
+        messages.add_message(request, messages.ERROR,
+                             'Your browser does not seem to have geolocation enabled so we cannot reliably pinpoint your location!')
+        return HttpResponseRedirect(reverse('dashboard'))
 
 
 @login_required
