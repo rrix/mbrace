@@ -27,19 +27,20 @@
                     %a{href: '{% url "profile" hug.user_delivering %}'}= hug.user_delivering.nickname
                   has offered to give you a hug!
                 %a{class: 'button expand', href: "{% url 'edit_hug' hug.id %}?action=clear_deliverer"} I'd prefer someone else.
-          / Here we have chat stuff
-          %form{action: "{% url 'new_message' hug.id %}", method: 'post'}
-            .row
-              .large-10.small-10.columns
-                %input{ placeholder: 'Send a message', name: 'text', type: 'text'}
-              .large-2.small-2.columns
-                %button{ class: 'small expand', type: 'submit'} Send
-            {% csrf_token %}
-          - for message in hug.message_set.all
-            - if message.user == hug.user_in_need
-              .huggee-chat= message.text
-            - else
-              .hugger-chat= message.text
+          - if current_user = hug.user_in_need or current_user = hug.user_delivering
+            / Here we have chat stuff
+            %form{action: "{% url 'new_message' hug.id %}", method: 'post'}
+              .row
+                .large-10.small-10.columns
+                  %input{ placeholder: 'Send a message', name: 'text', type: 'text'}
+                .large-2.small-2.columns
+                  %button{ class: 'small expand', type: 'submit'} Send
+              {% csrf_token %}
+            - for message in hug.message_set.all
+              - if message.user == hug.user_in_need
+                .huggee-chat= message.text
+              - else
+                .hugger-chat= message.text
 
     .large-6.small-12.columns
       {{ form.map }}
