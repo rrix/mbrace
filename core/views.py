@@ -43,12 +43,10 @@ def profile(request, uid):
     # XXX I suppose I need to audit this?
     uid = int(uid)
     if uid == request.user.id:
-        form_to_use = None
         form = None
-        form_to_use = ProfileForm
 
         if request.method == 'POST':
-            form = form_to_use(request.POST, instance=request.user)
+            form = ProfileForm(request.POST, instance=request.user)
             if form.is_valid():
                 hugger = form.save()
         else:
