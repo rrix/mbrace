@@ -15,7 +15,7 @@ class Hugger(AbstractUser, FacebookProfileModel):
     # XXX: Make sure this is US style using https://docs.djangoproject.com/en/1.4/ref/contrib/localflavor/#django.contrib.localflavor.us.models.PhoneNumberField
     phone_number = models.CharField(max_length=20)
 
-    friends = models.ManyToManyField('Hugger')
+    friend_objects = models.ManyToManyField('Hugger')
 
     def filled_out(self):
         """This is basically a validation, but not enforced at the model
