@@ -33,12 +33,17 @@ def register(request):
 
 @login_required
 def dashboard(request):
+    def get_hugs(friend):
+        return friend.requestor_set.all().order_by('-id')[0]
+
     nearby = Meeting.nearby(request.user)
-    friends = Hugger.objects.filter(friend_objects__contains=request.user)
+    friends = Hugger.objects.filter(friend_objects__id=request.user.id).order_by('last_hug_date')
+    friend_hugs = map(get_hugs, friends)
+
     return render(request, "core/dashboard.html",
                   {'nearby': nearby,
                    'current_user': request.user,
-                   'friends': friends})
+                   'friend_hugs': friend_hugs})
 
 
 @login_required
@@ -52,22 +57,27 @@ def profile(request, uid):
             form = ProfileForm(request.POST, instance=request.user)
             if form.is_valid():
                 hugger = form.save()
+                messages.add_message(request, messages.SUCCESS,
+                                     'Your profile has been updated.')
         else:
-            form = form_to_use(instance=request.user)
+            form = ProfileForm(instance=request.user)
 
         return render(request, "core/profile.html",
                       {'form': form, 'username': uid})
     else:
         return render(request, "core/show_profile.html",
-                      {'user': Hugger.objects.get(uid)})
+                      {'user': Hugger.objects.get(id=uid)})
 
 
 @login_required
 def new_hug(request):
+    import datetime
     hugger = request.user
-    new_hug = Meeting.objects.create(user_in_need=hugger)
 
     if hugger.last_location != "":
+        new_hug = Meeting.objects.create(user_in_need=hugger)
+        hugger.last_hug_date = datetime.datetime.now()
+        hugger.save()
         return HttpResponseRedirect(reverse('edit_hug', args=(new_hug.id,)))
     else:
         messages.add_message(request, messages.ERROR,
@@ -91,7 +101,7 @@ def edit_hug(request, hug_id):
     hug = Meeting.objects.get(id=hug_id)
 
     # Let's make sure someone we know owns this object!
-    if (hug.user_delivering and request.user == hug.user_delivering) or (request.user == hug.user_in_need):
+    if (hug.user_delivering is None) or (hug.user_delivering is not None and request.user == hug.user_delivering) or (request.user == hug.user_in_need):
         if 'action' in request.GET:
             action = request.GET['action']
             # do something interesting here
@@ -159,7 +169,7 @@ def edit_hug(request, hug_id):
                        'form': MapForm(initial={'map': gmap}),
                        'current_user': request.user})
     else:
-        messages.add_messages(request, messages.ERROR,
+        messages.add_message(request, messages.ERROR,
                               "This page doesn't belong to you!" )
         return HttpResponseRedirect(reverse('dashboard'))
 

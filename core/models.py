@@ -14,8 +14,24 @@ class Hugger(AbstractUser, FacebookProfileModel):
     last_location = models.CharField(max_length=100)
     # XXX: Make sure this is US style using https://docs.djangoproject.com/en/1.4/ref/contrib/localflavor/#django.contrib.localflavor.us.models.PhoneNumberField
     phone_number = models.CharField(max_length=20)
+    last_hug_date = models.DateTimeField()
 
     friend_objects = models.ManyToManyField('Hugger')
+
+    def display_name(self, requestor):
+        """
+        This returns username or full name, depending on whether or not the
+        requestor is a facebook friend of the user or not.
+        """
+        display_name = u''
+        try:
+            friend = self.friend_objects.get(id=requestor.id)
+            display_name = self.facebook_name
+        except:
+            friend = None
+            display_name = self.username
+
+        return display_name
 
     def filled_out(self):
         """This is basically a validation, but not enforced at the model
@@ -48,7 +64,8 @@ class Meeting(models.Model):
     @classmethod
     def nearby(self, user):
         # FIXME This should pull from geodjango eventually
-        objects = Meeting.objects.filter(user_in_need__zip_code=user.zip_code)
+        #objects = Meeting.objects.filter(user_in_need__zip_code=user.zip_code)
+        objects = Meeting.objects.all()
         return objects
 
 

@@ -25,6 +25,24 @@
     .large-6.medium-6.small-12.columns
       %h2 Friends' Activity
 
+      %ul.friends-activities.no-bullet
+        - for hug in friend_hugs
+          - if hug.user_delivering == null
+            %li
+              %strong
+                %a{href: "{% url 'profile' hug.user_in_need.id %}"}= hug.user_in_need.username
+              is in need of a
+              %a{href: "{% url 'edit_hug' hug.id %}"} hug
+              !
+          - else
+            %li
+              %strong
+                %a{href: "{% url 'profile' hug.user_in_need.id %}"}= hug.user_in_need.username
+              got a hug from
+              %strong
+                %a{href: "{% url 'profile' hug.user_delivering.id %}"}= hug.user_delivering
+              !
+
     .large-6.medium-6.small-12.columns
       %h2 Nearby Activity
 
