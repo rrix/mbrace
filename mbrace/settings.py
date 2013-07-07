@@ -124,7 +124,6 @@ INSTALLED_APPS = (
     'django_facebook',
     'djcelery',
     'gmapi',
-    'registration',
     'core',
     'celeryqueue',
 )

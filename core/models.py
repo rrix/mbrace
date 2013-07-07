@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, UserManager
 from django_facebook.models import FacebookProfileModel
 
+from django_facebook import signals
+
+from celeryqueue.tasks import update_friends
+
 
 class Hugger(AbstractUser, FacebookProfileModel):
     objects = UserManager()
@@ -44,6 +48,7 @@ class Meeting(models.Model):
 
     @classmethod
     def nearby(self, user):
+        # FIXME This should pull from geodjango eventually
         objects = Meeting.objects.filter(user_in_need__zip_code=user.zip_code)
         return objects
 

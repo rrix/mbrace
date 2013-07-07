@@ -1,4 +1,6 @@
 from celery import task
 
-#@task
-#def 
+@task
+def update_friends(user):
+    import pdb
+    pdb.set_trace()
