@@ -18,6 +18,17 @@ class Hugger(AbstractUser, FacebookProfileModel):
 
     friend_objects = models.ManyToManyField('Hugger')
 
+    def has_open_hugs(self):
+        """
+        This goes through the user's hugs, both requested and delivering, and
+        makes sure that none of them are open.
+        """
+        for meeting in self.requestor_set.all():
+            if meeting.open(self) is True:
+                return True
+
+        return False
+
     def display_name(self, requestor):
         """
         This returns username or full name, depending on whether or not the
@@ -60,6 +71,10 @@ class Meeting(models.Model):
     review_2 = models.ForeignKey('Review',
                                  related_name='deliverer_review_set',
                                  null=True)
+
+    def open(self, for_whom):
+        if self.user_delivering is None:
+            return True
 
     @classmethod
     def nearby(self, user):
