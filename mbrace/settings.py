@@ -1,4 +1,5 @@
 # Django settings for mbrace project.
+from datetime import timedelta
 import os
 # retch
 PROJECT_DIR = os.path.abspath(os.path.dirname(os.path.abspath(__file__))+'/..')
@@ -193,3 +194,13 @@ MESSAGE_TAGS = {
 FACEBOOK_STORE_FRIENDS = True
 FACEBOOK_CELERY_STORE = True
 FACEBOOK_CELERY_TOKEN_EXTEND  = True
+
+# https://github.com/czm/django-deploy/blob/master/deploy/templates/deploy/celerybeat-init.d.template
+CELERYBEAT_SCHEDULE = {
+    'update_all_friends': {
+        'task': 'celeryqueue.tasks.update_friends_for_all',
+        'schedule': timedelta(hours=6)
+    },
+}
+
+CELERY_TIMEZONE = 'UTC'
