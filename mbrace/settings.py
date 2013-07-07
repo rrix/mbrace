@@ -189,3 +189,7 @@ MESSAGE_TAGS = {
     messages.ERROR: 'alert',
     messages.SUCCESS: 'success'
 }
+
+FACEBOOK_STORE_FRIENDS = True
+FACEBOOK_CELERY_STORE = True
+FACEBOOK_CELERY_TOKEN_EXTEND  = True
