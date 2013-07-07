@@ -37,7 +37,7 @@ def dashboard(request):
         return friend.requestor_set.all().order_by('-id')[0]
 
     nearby = Meeting.nearby(request.user)
-    friends = Hugger.objects.filter(friend_objects__id=request.user.id).order_by('last_hug_date')
+    friends = request.user.friend_objects.order_by('last_hug_date')
     friend_hugs = map(get_hugs, friends)
 
     return render(request, "core/dashboard.html",
