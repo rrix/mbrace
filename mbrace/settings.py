@@ -183,3 +183,10 @@ LOGGING = {
 LOGIN_URL = '/'
 
 from local_settings import *
+
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.INFO: '',
+    messages.ERROR: 'alert',
+    messages.SUCCESS: 'success'
+}
