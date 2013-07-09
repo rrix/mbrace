@@ -135,10 +135,24 @@ def edit_hug(request, hug_id):
         u1_lat = float(u1_location_data['coords[latitude]'])
         u1_lon = float(u1_location_data['coords[longitude]'])
 
+        if hug.user_delivering is not None:
+            u2_location_data = json.loads(hug.user_delivering.last_location)
+            u2_lat = float(u2_location_data['coords[latitude]'])
+            u2_lon = float(u2_location_data['coords[longitude]'])
+            # set icon here
+        else:
+            u2_location_data = json.loads(request.user.last_location)
+            u2_lat = float(u2_location_data['coords[latitude]'])
+            u2_lon = float(u2_location_data['coords[longitude]'])
+            # set icon here
+
+        center_lat = u1_lat - (u1_lat-u2_lat)/2
+        center_lon = u1_lon - (u1_lon-u2_lon)/2
+
         gmap = maps.Map(opts={
-            'center': maps.LatLng(u1_lat, u1_lon),
+            'center': maps.LatLng(center_lat, center_lon),
             'mapTypeId': maps.MapTypeId.ROADMAP,
-            'zoom': 16,
+            'zoom': 15,
             'mapTypeControlOptions': {
                 'style': maps.MapTypeControlStyle.DROPDOWN_MENU
             },
@@ -151,16 +165,6 @@ def edit_hug(request, hug_id):
             #, 'icon': static asset to image
         })
 
-        if hug.user_delivering is not None:
-            u2_location_data = json.loads(hug.user_delivering.last_location)
-            u2_lat = float(u2_location_data['coords[latitude]'])
-            u2_lon = float(u2_location_data['coords[longitude]'])
-            # set icon here
-        else:
-            u2_location_data = json.loads(request.user.last_location)
-            u2_lat = float(u2_location_data['coords[latitude]'])
-            u2_lon = float(u2_location_data['coords[longitude]'])
-            # set icon here
 
         user2_marker = maps.Marker(opts={
             'map': gmap,
