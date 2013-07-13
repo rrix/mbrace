@@ -3,16 +3,24 @@ Markdown==2.3.1
 PIL==1.1.7
 Pygments==1.6
 South==0.8.1
+amqp==1.0.12
+anyjson==0.3.3
+billiard==2.7.3.31
+celery==3.0.21
 djaml==1.1
+django-celery==3.0.17
 django-extensions==1.1.1
 django-facebook==5.2.6
 -e hg+https://bitbucket.org/dbinit/django-gmapi@3580a1588ef4cee28a7884533ec47424f1fbe33b#egg=django_gmapi-dev
 django-scss==0.6.1
 flake8==2.0
 hamlpy==0.82.2
+kombu==2.5.12
 mccabe==0.2.1
 pep8==1.4.5
 pyflakes==0.7.2
 pygraphviz==1.1
+python-dateutil==2.1
+pytz==2013b
 six==1.3.0
 wsgiref==0.1.2
