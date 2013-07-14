@@ -12,6 +12,7 @@ django-celery==3.0.17
 django-extensions==1.1.1
 django-facebook==5.2.6
 -e hg+https://bitbucket.org/dbinit/django-gmapi@3580a1588ef4cee28a7884533ec47424f1fbe33b#egg=django_gmapi-dev
+django-registration==1.0
 django-scss==0.6.1
 flake8==2.0
 hamlpy==0.82.2
