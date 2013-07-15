@@ -73,7 +73,6 @@ STATICFILES_DIRS = (
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
-    'django_scss.finders.SCSSFinder',
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
@@ -121,7 +120,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'registration',
     'django_extensions',
-    'django_scss',
+    'pipeline',
     'django_facebook',
     'djcelery',
     'gmapi',
