@@ -205,3 +205,8 @@ CELERYBEAT_SCHEDULE = {
 }
 
 CELERY_TIMEZONE = 'UTC'
+
+SOUTH_MIGRATION_MODULES = {
+    'django_facebook': 'ignore',
+}
+
