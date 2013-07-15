@@ -196,8 +196,6 @@ PIPELINE_CSS = {
         'source_filenames': {
             'foundation/scss/normalize.scss',
             'foundation/scss/foundation.scss',
-            'foundation/scss/foundation/_variables.scss',
-            'foundation/scss/foundation/components/*.scss'
         },
         'output_filename': 'foundation.css'
     },
