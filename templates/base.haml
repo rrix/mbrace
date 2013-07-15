@@ -1,4 +1,4 @@
-- load scss
+- load compressed
 !!!
 %html
   %head
@@ -8,17 +8,10 @@
       -block title
         MBrace
 
-    %link{'rel': 'stylesheet', 'href': '{{ STATIC_URL }}{% scss "foundation/scss/normalize.scss" %}'}
-    %link{'rel': 'stylesheet', 'href': '{{ STATIC_URL }}{% scss "foundation/scss/foundation.scss" %}'}
+    - compressed_css 'foundation'
+    - compressed_js 'foundation'
+    - compressed_css 'app'
 
-    %link{'rel': 'stylesheet', 'href': '{{ STATIC_URL }}{% scss "scss/app.scss" %}'}
-
-    %script{'src': "{{ STATIC_URL }}/foundation/js/vendor/jquery.js"}
-    %script{'src': "{{ STATIC_URL }}/foundation/js/vendor/custom.modernizr.js"}
-    %script{'src': "{{ STATIC_URL }}/foundation/js/foundation/foundation.js"}
-    %script{'src': "{{ STATIC_URL }}/foundation/js/foundation/foundation.topbar.js"}
-    %script{'src': "{{ STATIC_URL }}/foundation/js/foundation/foundation.alerts.js"}
-    %script{'src': "{{ STATIC_URL }}/foundation/js/foundation/foundation.reveal.js"}
     %link{href: "{{ STATIC_URL }}css/facebook.css", type: "text/css", rel: "stylesheet", media: "all"}
     {% include 'django_facebook/_facebook_js.html' %}
     -block head
