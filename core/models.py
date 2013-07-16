@@ -15,6 +15,8 @@ class Hugger(models.Model):
 
     friend_objects = models.ManyToManyField('Hugger')
 
+    invite_count = models.IntegerField(default=1)
+
     def has_open_hugs(self):
         """
         This goes through the user's hugs, both requested and delivering, and

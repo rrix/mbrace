@@ -42,6 +42,10 @@
               %strong
                 %a{href: "{% url 'profile' hug.user_delivering.id %}"}= hug.user_delivering.user.username
               !
+        - empty
+          %i
+            There isn't any activity here! Perhaps you should
+            %a{href: "/add_friendsFIXME"} add some of your friends
 
     .large-6.medium-6.small-12.columns
       %h2 Nearby Activity
@@ -63,13 +67,18 @@
               %strong
                 %a{href: "{% url 'profile' hug.user_delivering.id %}"}= hug.user_delivering.user.username
               !
+        - empty
+          %i
+            The neighborhood seems really quiet! Do you need a hug, perhaps?
 
 
   .row
     .large-12.medium-12.small-12.columns
       %h2
         %small Other Actions
-      %a{class: 'button', href: '{% url "profile" current_user.id %}'} Update my profile
+      %a{class: 'button', href: '{% url "profile" current_user.user.id %}'} Update my profile
+      - if current_user.invite_count > 0
+        %a{class: 'button', href: '/send_inviteFIXME'} Send Invitation
 
   :javascript
     $(document).ready(function() {
