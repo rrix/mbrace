@@ -40,6 +40,9 @@
                   %input{ type: "hidden", value: "{% url 'dashboard' %}", name: "register_next"}
                   %input{ type: "hidden", value: "{{ request.path }}", name: "error_next"}
                   {% csrf_token %}
+            - if user.is_superuser
+              %li
+                %a{ href: '{% url "admin:index" %}'} Administravia
             %li.has-dropdown
               %a{href: '/contactFIXME'} Support
               %ul.dropdown
