@@ -8,8 +8,8 @@
     .large-12.medium-12.small-12.columns
       %h1 My Dashboard
 
-  - if user
-    - if not user.filled_out
+  - if current_user
+    - if not current_user.filled_out
       .row
         .alert-box.alert
           You have not finished configuring your profile. You'll need to
@@ -30,17 +30,17 @@
           - if hug.user_delivering == null
             %li
               %strong
-                %a{href: "{% url 'profile' hug.user_in_need.id %}"}= hug.user_in_need.username
+                %a{href: "{% url 'profile' hug.user_in_need.user.id %}"}= hug.user_in_need.user.username
               is in need of a
               %a{href: "{% url 'edit_hug' hug.id %}"} hug
               !
           - else
             %li
               %strong
-                %a{href: "{% url 'profile' hug.user_in_need.id %}"}= hug.user_in_need.username
+                %a{href: "{% url 'profile' hug.user_in_need.id %}"}= hug.user_in_need.user.username
               got a hug from
               %strong
-                %a{href: "{% url 'profile' hug.user_delivering.id %}"}= hug.user_delivering
+                %a{href: "{% url 'profile' hug.user_delivering.id %}"}= hug.user_delivering.user.username
               !
 
     .large-6.medium-6.small-12.columns
@@ -51,17 +51,17 @@
           - if hug.user_delivering == null
             %li
               %strong
-                %a{href: "{% url 'profile' hug.user_in_need.id %}"}= hug.user_in_need.username
+                %a{href: "{% url 'profile' hug.user_in_need.id %}"}= hug.user_in_need.user.username
               is in need of a
               %a{href: "{% url 'edit_hug' hug.id %}"} hug
               !
           - else
             %li
               %strong
-                %a{href: "{% url 'profile' hug.user_in_need.id %}"}= hug.user_in_need.username
+                %a{href: "{% url 'profile' hug.user_in_need.id %}"}= hug.user_in_need.user.username
               got a hug from
               %strong
-                %a{href: "{% url 'profile' hug.user_delivering.id %}"}= hug.user_delivering
+                %a{href: "{% url 'profile' hug.user_delivering.id %}"}= hug.user_delivering.user.username
               !
 
 
@@ -76,6 +76,8 @@
       if("geolocation" in navigator) {
         var locationize = function() {
           navigator.geolocation.getCurrentPosition(function(pos) {
+            var p = pos.coords;
+            pos = {'latitude': p['latitude'], 'longitude': p['longitude']};
             $.ajax({
               url: '{% url "update_location" %}',
               data: pos

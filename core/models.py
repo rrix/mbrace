@@ -1,10 +1,9 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, UserManager
+from django.contrib.auth.models import User
 
 
-class Hugger(AbstractBaseUser):
-    objects = UserManager()
-    username = models.CharField(max_length=20, unique=True)
+class Hugger(models.Model):
+    user = models.ForeignKey(User)
     email = models.CharField(max_length=20, unique=True)
     phone_number = models.CharField(max_length=20, null=True, unique=True)
 
@@ -15,8 +14,6 @@ class Hugger(AbstractBaseUser):
     last_hug_date = models.DateTimeField(null=True)
 
     friend_objects = models.ManyToManyField('Hugger')
-
-    USERNAME_FIELD = 'username'
 
     def has_open_hugs(self):
         """

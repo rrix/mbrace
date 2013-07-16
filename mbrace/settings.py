@@ -62,7 +62,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # Uncomment the next line for simple clickjacking protection:
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
@@ -112,8 +112,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
-
-AUTH_USER_MODEL = 'core.Hugger'
 
 ACCOUNT_ACTIVATION_DAYS = 7  # One-week activation window; you may, of course,
                              # use a different value.
