@@ -36,6 +36,9 @@
                 %a{ class: 'button', href: '{% url "auth_login" %}'} Sign In
               %li
                 %a{ class: 'button secondary', href: '/invitationsFIXME'} Request an Invite
+            - if user.is_superuser
+              %li
+                %a{ href: '{% url "admin:index" %}'} Administravia
             %li.has-dropdown
               %a{href: '/contactFIXME'} Support
               %ul.dropdown
