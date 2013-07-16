@@ -14,7 +14,6 @@
     - compressed_js 'foundation'
 
     %link{href: "{{ STATIC_URL }}css/facebook.css", type: "text/css", rel: "stylesheet", media: "all"}
-    {% include 'django_facebook/_facebook_js.html' %}
     -block head
   %body
     -block header
@@ -34,12 +33,9 @@
                 %a{'href': "{%url 'dashboard'%}"} My Dashboard
             -else
               %li
-                %form{action: '{% url "facebook_connect" %}?facebook_login=1', method: 'post'}
-                  %a{ class: 'button', href: 'javascript:void(0);', onclick: 'F.connect(this.parentNode);'} Sign In
-                  %input{ type: "hidden", value: "{% url 'dashboard' %}", name: "next"}
-                  %input{ type: "hidden", value: "{% url 'dashboard' %}", name: "register_next"}
-                  %input{ type: "hidden", value: "{{ request.path }}", name: "error_next"}
-                  {% csrf_token %}
+                %a{ class: 'button', href: '{% url "auth_login" %}'} Sign In
+              %li
+                %a{ class: 'button secondary', href: '/invitationsFIXME'} Request an Invite
             %li.has-dropdown
               %a{href: '/contactFIXME'} Support
               %ul.dropdown

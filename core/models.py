@@ -1,22 +1,22 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, UserManager
-from django_facebook.models import FacebookProfileModel
-
-from django_facebook import signals
-#from celeryqueue.tasks import update_friends
-import celeryqueue.tasks
+from django.contrib.auth.models import AbstractBaseUser, UserManager
 
 
-class Hugger(AbstractUser, FacebookProfileModel):
+class Hugger(AbstractBaseUser):
     objects = UserManager()
+    username = models.CharField(max_length=20, unique=True)
+    email = models.CharField(max_length=20, unique=True)
+    phone_number = models.CharField(max_length=20, null=True, unique=True)
+
     zip_code = models.CharField(max_length=5, null=True)
     # TODO: Pull GeoDjango in to the mix
     last_location = models.CharField(max_length=512, null=True)
     # XXX: Make sure this is US style using https://docs.djangoproject.com/en/1.4/ref/contrib/localflavor/#django.contrib.localflavor.us.models.PhoneNumberField
-    phone_number = models.CharField(max_length=20, null=True)
     last_hug_date = models.DateTimeField(null=True)
 
     friend_objects = models.ManyToManyField('Hugger')
+
+    USERNAME_FIELD = 'username'
 
     def has_open_hugs(self):
         """
@@ -60,6 +60,14 @@ class Hugger(AbstractUser, FacebookProfileModel):
         return is_valid
 
 
+class FriendRequest(models.Model):
+    request_from = models.ForeignKey('Hugger', related_name='friend_requestor_set')
+    request_for = models.ForeignKey('Hugger', related_name='friend_requestee_set')
+
+    date_created = models.DateTimeField()
+    date_accepted = models.DateTimeField(null=True)
+
+
 class Meeting(models.Model):
     user_in_need = models.ForeignKey('Hugger', related_name='requestor_set')
     user_delivering = models.ForeignKey('Hugger',
@@ -96,15 +104,3 @@ class Message(models.Model):
     text = models.CharField(max_length=140)
     sender = models.ForeignKey('Hugger')
     meeting = models.ForeignKey('Meeting')
-
-
-def associate_friends_from_opengraph(sender, user, friends, current_friends, inserted_friends, **kwargs):
-    """
-    associate_friends_from_opengraph
-
-    Call out to celeryqueue to update the user relationships of friends
-    """
-    if created:
-        celeryqueue.tasks.update_friends.delay(user=user)
-
-signals.facebook_post_store_friends.connect(associate_friends_from_opengraph)

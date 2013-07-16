@@ -1,3 +1,4 @@
+# vim: set foldmethod=marker foldlevel=0:
 # Django settings for mbrace project.
 from datetime import timedelta
 import os
@@ -88,9 +89,9 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'registration',
+    'invitation',
     'django_extensions',
     'pipeline',
-    'django_facebook',
     'djcelery',
     'gmapi',
     'core',
@@ -106,11 +107,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.tz',
     'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
-    'django_facebook.context_processors.facebook',
 )
 
 AUTHENTICATION_BACKENDS = (
-    'django_facebook.auth_backends.FacebookBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -151,8 +150,6 @@ LOGGING = {
 
 LOGIN_URL = '/'
 
-from local_settings import *
-
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.INFO: '',
@@ -160,24 +157,9 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'success'
 }
 
-FACEBOOK_STORE_FRIENDS = True
-FACEBOOK_CELERY_STORE = True
-FACEBOOK_CELERY_TOKEN_EXTEND  = True
-
-# https://github.com/czm/django-deploy/blob/master/deploy/templates/deploy/celerybeat-init.d.template
-CELERYBEAT_SCHEDULE = {
-    'update_all_friends': {
-        'task': 'celeryqueue.tasks.update_friends_for_all',
-        'schedule': timedelta(hours=6)
-    },
-}
-
 CELERY_TIMEZONE = 'UTC'
 
-SOUTH_MIGRATION_MODULES = {
-    'django_facebook': 'ignore',
-}
-
+# {{{1 Staticfiles and pipeline handling
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'public')
 STATIC_URL = '/public/'
@@ -229,3 +211,8 @@ PIPELINE_JS_COMPRESSOR=None
 PIPELINE_COMPILERS = (
     'pipeline_compass.compass.CompassCompiler',
 )
+#}}}
+
+INVITATION_INVITE_ONLY=True
+
+from local_settings import *

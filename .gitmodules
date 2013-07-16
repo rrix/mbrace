@@ -1,3 +1,6 @@
 [submodule "static/foundation"]
 	path = static/foundation
 	url = https://github.com/zurb/foundation.git
+[submodule "django-invitation-backend"]
+	path = django-invitation-backend
+	url = git@github.com:rrix/django-invitation-backend.git
