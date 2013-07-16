@@ -9,8 +9,9 @@
         MBrace
 
     - compressed_css 'foundation'
-    - compressed_js 'foundation'
     - compressed_css 'app'
+    - compressed_js 'libraries'
+    - compressed_js 'foundation'
 
     %link{href: "{{ STATIC_URL }}css/facebook.css", type: "text/css", rel: "stylesheet", media: "all"}
     {% include 'django_facebook/_facebook_js.html' %}

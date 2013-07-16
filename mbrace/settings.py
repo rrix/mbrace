@@ -187,7 +187,6 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 PIPELINE_ROOT=os.path.join(STATIC_ROOT, 'pipeline')
@@ -197,31 +196,36 @@ PIPELINE_CSS = {
             'foundation/scss/normalize.scss',
             'foundation/scss/foundation.scss',
         },
-        'output_filename': 'foundation.css'
+        'output_filename': 'min/foundation.css'
     },
     'app': {
         'source_filenames': {
             'scss/app.scss'
         },
-        'output_filename': 'app.css'
+        'output_filename': 'min/app.css'
     }
 }
 
 PIPELINE_JS = {
-    'foundation': {
+    'libraries': {
         'source_filenames': {
             'foundation/js/vendor/jquery.js',
             'foundation/js/vendor/custom.modernizr.js',
-            'foundation/js/index.js'
-            'foundation/js/foundation/foundation*.js'
         },
-        'output_filename': 'foundation.js'
+        'output_filename': 'min/libraries.js'
+    },
+    'foundation': {
+        'source_filenames': {
+            'foundation/js/foundation/foundation.js',
+            'foundation/js/foundation/foundation.*.js',
+        },
+        'output_filename': 'min/foundation.js'
     }
 }
 
-PIPELINE_ENABLED=True
+PIPELINE_ENABLED=False
 PIPELINE_CSS_COMPRESSOR=None
 PIPELINE_JS_COMPRESSOR=None
 PIPELINE_COMPILERS = (
-    'pipeline_compass.compiler.CompassCompiler',
+    'pipeline_compass.compass.CompassCompiler',
 )
