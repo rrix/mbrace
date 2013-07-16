@@ -9,12 +9,12 @@ import celeryqueue.tasks
 
 class Hugger(AbstractUser, FacebookProfileModel):
     objects = UserManager()
-    zip_code = models.CharField(max_length=5)
+    zip_code = models.CharField(max_length=5, null=True)
     # TODO: Pull GeoDjango in to the mix
-    last_location = models.CharField(max_length=100)
+    last_location = models.CharField(max_length=512, null=True)
     # XXX: Make sure this is US style using https://docs.djangoproject.com/en/1.4/ref/contrib/localflavor/#django.contrib.localflavor.us.models.PhoneNumberField
-    phone_number = models.CharField(max_length=20)
-    last_hug_date = models.DateTimeField()
+    phone_number = models.CharField(max_length=20, null=True)
+    last_hug_date = models.DateTimeField(null=True)
 
     friend_objects = models.ManyToManyField('Hugger')
 
