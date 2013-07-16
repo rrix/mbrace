@@ -151,7 +151,7 @@ LOGGING = {
 
 LOGIN_URL = '/'
 
-from mbrace.local_settings import *
+from local_settings import *
 
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
