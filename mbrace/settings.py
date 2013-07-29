@@ -1,6 +1,5 @@
 # vim: set foldmethod=marker foldlevel=0:
 # Django settings for mbrace project.
-from datetime import timedelta
 import os
 # retch
 PROJECT_DIR = os.path.abspath(os.path.dirname(os.path.abspath(__file__))+'/..')

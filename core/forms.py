@@ -15,18 +15,6 @@ class ProfileForm(forms.ModelForm):
         fields = ['phone_number', 'zip_code']
 
 
-class PartialProfileForm(forms.ModelForm):
-    """
-    This is a fixme; I need to add some logic to disable people from changing
-    their displayed username; I'm thinking that this should just pull from
-    facebook, but I'd like to give someone the option to change it... once.
-    Maybe that's just a support request.
-    """
-    class Meta:
-        model = Hugger
-        fields = ['phone_number', 'zip_code']
-
-
 class UserCreateForm(forms.Form):
     email = forms.EmailField(required=True)
 
