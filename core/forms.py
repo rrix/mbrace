@@ -1,8 +1,11 @@
 from django import forms
-from django.contrib.localflavor.us import forms as flavorforms
+# from django.contrib.localflavor.us import forms as flavorforms
 from django.contrib.auth.models import User
-from core.models import Hugger
+from core.models import Hugger, Invite
 from gmapi.forms.widgets import GoogleMap
+
+import string
+import uuid
 
 
 class MapForm(forms.Form):
@@ -33,9 +36,9 @@ class UserCreateForm(forms.Form):
 class InviteForm(forms.Form):
     email = forms.EmailField(required=True)
 
-    def save(self, commit=True):
-        invite = super(InviteForm, self).save(commit=False)
-        invite.target_email = self.email
+    def save(self, hugger, commit=True):
+        invite = Invite(originator=hugger, target_email=self['email'].data)
+        invite.signup_token = string.replace(str(uuid.uuid4()), '-', '')
         if commit:
             invite.save()
 

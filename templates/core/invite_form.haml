@@ -19,10 +19,9 @@
           - elif hugger.invite_count > 1
             Use them wisely!
 
-        - if invitations|length
-          %p
-            You've invited these cool cats already:
-          %ul
+        - if invitations|length > 0
+          %p You've invited these cool cats already:
+          %ul{style: 'margin-left: 1.5em;'}
             - for invite in invitations
               %li
                 = invite.target_email

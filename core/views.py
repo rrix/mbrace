@@ -215,15 +215,22 @@ def send_invite(request):
     else:
         if request.method == 'GET':
             invite_form = InviteForm()
-            hugger = Hugger.objects.get(user=request.user)
             invitations = hugger.sent_invite_set.all()
 
             return render(request, 'core/invite_form.html',
                           {'form': invite_form,
                            'user': request.user,
                            'hugger': hugger,
-                           'invites': invitations})
+                           'invitations': invitations})
         elif request.method == 'POST':
-            messages.add_message(request, messages.SUCCESS,
-                                 'Your invitation will arrive shortly. Hug on!')
+            form = InviteForm(request.POST)
+            if form.is_valid():
+                invitation = form.save(hugger=hugger)
+                invitation.send()
+                messages.add_message(request, messages.SUCCESS,
+                                     'Your invitation will arrive shortly. Hug on!')
+            else:
+                messages.add_message(request, messages.ERROR,
+                                     "For some reason we couldn't send that invite! :(")
+
             return HttpResponseRedirect(reverse('dashboard'))

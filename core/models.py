@@ -110,6 +110,7 @@ class Invite(models.Model):
     target_user = models.ForeignKey('Hugger', related_name='original_invitation_set', null=True)
 
     target_email = models.EmailField(null=False)
+    signup_token = models.CharField(max_length=32, unique=True)
 
     def send(self):
         # FIXME: Make this forge out to celery to send an email with an invite
