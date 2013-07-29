@@ -10,4 +10,5 @@ urlpatterns = patterns('',
     url(r'^profile/(?P<uid>\d+)/',        views.profile,         name='profile'),
     url(r'^update_location/',             views.update_location, name='update_location'),
     url(r'^new_message/(?P<hug_id>\d+)/', views.new_message,     name='new_message'),
+    url(r'^send_invite',                  views.send_invite,     name='send_invite'),
 )

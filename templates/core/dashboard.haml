@@ -71,14 +71,13 @@
           %i
             The neighborhood seems really quiet! Do you need a hug, perhaps?
 
-
   .row
     .large-12.medium-12.small-12.columns
       %h2
         %small Other Actions
       %a{class: 'button', href: '{% url "profile" current_user.user.id %}'} Update my profile
       - if current_user.invite_count > 0
-        %a{class: 'button', href: '/send_inviteFIXME'} Send Invitation
+        %a{class: 'button', href: '{% url "send_invite" %}'} Send Invitation
 
   :javascript
     $(document).ready(function() {

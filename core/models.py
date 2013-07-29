@@ -103,3 +103,15 @@ class Message(models.Model):
     text = models.CharField(max_length=140)
     sender = models.ForeignKey('Hugger')
     meeting = models.ForeignKey('Meeting')
+
+
+class Invite(models.Model):
+    originator = models.ForeignKey('Hugger', related_name='sent_invite_set')
+    target_user = models.ForeignKey('Hugger', related_name='original_invitation_set', null=True)
+
+    target_email = models.EmailField(null=False)
+
+    def send(self):
+        # FIXME: Make this forge out to celery to send an email with an invite
+        # or something idk.
+        pass

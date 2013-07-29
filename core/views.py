@@ -128,7 +128,7 @@ def edit_hug(request, hug_id):
                 if user_hug == hug.user_in_need:
                     hug.delete()
                     messages.add_message(request, messages.INFO,
-                                          'Alright, let us know if you need a hug, okay?')
+                                         'Alright, let us know if you need a hug, okay?')
                 return HttpResponseRedirect(reverse('dashboard'))
             if action == 'clear_deliverer':
                 hug.user_delivering == None
@@ -202,3 +202,28 @@ def new_message(request, hug_id):
         messages.add_message(request, messages.ERROR,
                              'You cannot send messages to that meeting!')
         return HttpResponseRedirect(reverse('dashboard'))
+
+
+@login_required
+def send_invite(request):
+    hugger = Hugger.objects.get(user=request.user)
+
+    if hugger.invite_count < 0:
+        messages.add_message(request, messages.ERROR,
+                             'You do not have any available invitations yet!  Hold tight, we are rolling them out as we can.')
+        return HttpResponseRedirect(reverse('dashboard'))
+    else:
+        if request.method == 'GET':
+            invite_form = InviteForm()
+            hugger = Hugger.objects.get(user=request.user)
+            invitations = hugger.sent_invite_set.all()
+
+            return render(request, 'core/invite_form.html',
+                          {'form': invite_form,
+                           'user': request.user,
+                           'hugger': hugger,
+                           'invites': invitations})
+        elif request.method == 'POST':
+            messages.add_message(request, messages.SUCCESS,
+                                 'Your invitation will arrive shortly. Hug on!')
+            return HttpResponseRedirect(reverse('dashboard'))

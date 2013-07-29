@@ -42,3 +42,13 @@ class UserCreateForm(forms.Form):
         return user
 
 
+class InviteForm(forms.Form):
+    email = forms.EmailField(required=True)
+
+    def save(self, commit=True):
+        invite = super(InviteForm, self).save(commit=False)
+        invite.target_email = self.email
+        if commit:
+            invite.save()
+
+        return invite

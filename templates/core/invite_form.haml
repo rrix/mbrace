@@ -1,0 +1,53 @@
+- extends 'base.html'
+
+- block title
+  MBrace: Invite a New User
+
+- block content
+  .row
+    .large-12.medium-12.small-12.columns
+      %h2 Invite a New User
+
+  .row
+    .large-12.columns
+      .panel
+        %p
+          Hey, #{ user.username }!
+          You currently have #{ hugger.invite_count } invitations to your name.
+          - if hugger.invite_count == 1
+            Use it wisely!
+          - elif hugger.invite_count > 1
+            Use them wisely!
+
+        - if invitations|length
+          %p
+            You've invited these cool cats already:
+          %ul
+            - for invite in invitations
+              %li
+                = invite.target_email
+
+        %form{'method': 'post', 'action': '{% url "send_invite" %}'}
+          {% csrf_token %}
+          - for hidden in form.hidden_fields
+            {{ hidden }}
+
+          - for field in form.visible_fields
+            - if field.errors
+              - for error in field.errors
+                .error
+                  %label{class: 'inline right'}= error.label
+                  {{ field }}
+                  %small
+                    {{ error | escape }}
+            -else
+              .row
+                .large-1.small-1.columns.large-offset-2.small-offset-2
+                  %label{class: 'inline right'}
+                    {{field.label}}:
+                .large-7.small-12.columns.pull-2
+                  {{ field }}
+
+          .row
+            .large-4.large-centered.small-8.small-centered.columns
+              %button{type: 'submit', value: 'Invite User', class: 'button expand'} Invite User
