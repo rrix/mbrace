@@ -53,7 +53,6 @@ TEMPLATE_LOADERS = (
     'djaml.loaders.DjamlAppDirectoriesLoader',
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -71,9 +70,6 @@ ROOT_URLCONF = 'mbrace.urls'
 WSGI_APPLICATION = 'mbrace.wsgi.application'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
     os.path.join(PROJECT_DIR, "templates"),
 )
 
@@ -202,14 +198,17 @@ PIPELINE_JS = {
     }
 }
 
-PIPELINE_ENABLED=False
-PIPELINE_CSS_COMPRESSOR=None
-PIPELINE_JS_COMPRESSOR=None
+PIPELINE_ENABLED = False
+PIPELINE_CSS_COMPRESSOR = None
+PIPELINE_JS_COMPRESSOR = None
 PIPELINE_COMPILERS = (
     'pipeline_compass.compass.CompassCompiler',
 )
 #}}}
 
-INVITATION_INVITE_ONLY=True
+INVITATION_INVITE_ONLY = True
+
+# Set this to django.core.mail.backends.smtp.SmtpBackend when you deploy
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 from local_settings import *
