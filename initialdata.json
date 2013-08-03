@@ -1,0 +1,36 @@
+[
+{
+  "pk": 1,
+  "model": "auth.user",
+  "fields": {
+    "username": "rrix",
+    "first_name": "",
+    "last_name": "",
+    "is_active": true,
+    "is_superuser": true,
+    "is_staff": true,
+    "last_login": "2013-08-03T21:39:36.490Z",
+    "groups": [
+      ],
+    "user_permissions": [
+      ],
+    "password": "pbkdf2_sha256$10000$taz80V7rVqL9$4PMJOO99g/sQHVW1iHE1ZZIWgKOLcoSlGUptCm/Qja8=",
+    "email": "ry@n.rix.si",
+    "date_joined": "2013-08-03T21:39:16.832Z"
+  }
+},
+{
+  "pk": 1,
+  "model": "core.hugger",
+  "fields": {
+    "phone_number": null,
+    "last_hug_date": null,
+    "last_location": null,
+    "invite_count": 1,
+    "user": 1,
+    "friend_objects": [
+      ],
+    "email": "",
+    "zip_code": null
+  }
+}]
