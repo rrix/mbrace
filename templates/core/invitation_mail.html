@@ -1,0 +1,20 @@
+{% extends 'email_master.html' %}
+
+{% block content %}
+  <h1>You've been invited to MBrace!</h1>
+
+  <p>
+    Hello, {{ target_name }}, your friend over at MBrace has invited you to
+    join our quaint little network.
+  </p>
+
+  <p>
+    You should <a href="{% url 'activate_invitation' token %}">activate</a> your account!
+  </p>
+
+  <p>
+    MBrace is a place to meet new people. Whether you're having a rough day,
+    or just want to get coffee with someone new, MBrace makes it simple and
+    easy to have random adventures.
+  </p>
+{% endblock %}

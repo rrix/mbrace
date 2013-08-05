@@ -34,11 +34,13 @@ class UserCreateForm(forms.Form):
 
 
 class InviteForm(forms.Form):
+    name = forms.CharField(required=True, max_length=32)
     email = forms.EmailField(required=True)
 
     def save(self, hugger, commit=True):
         invite = Invite(originator=hugger, target_email=self['email'].data)
         invite.signup_token = string.replace(str(uuid.uuid4()), '-', '')
+        invite.name = self['name'].data
         if commit:
             invite.save()
 

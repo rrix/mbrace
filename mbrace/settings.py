@@ -211,4 +211,6 @@ INVITATION_INVITE_ONLY = True
 # Set this to django.core.mail.backends.smtp.SmtpBackend when you deploy
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+EMAIL_FROM = 'ryan@mbrace-dev.rix.si'
+
 from local_settings import *

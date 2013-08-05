@@ -234,3 +234,9 @@ def send_invite(request):
                                      "For some reason we couldn't send that invite! :(")
 
             return HttpResponseRedirect(reverse('dashboard'))
+
+
+def activate_invitation(request, token):
+    messages.add_message(request, messages.ERROR,
+                         "Not yet implemented")
+    return HttpResponseRedirect(reverse('dashboard'))

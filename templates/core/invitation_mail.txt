@@ -1,0 +1,11 @@
+You've been invited to MBrace!
+
+Hello, {{ target_name }}, your friend over at MBrace has invited you to
+join our quaint little network.
+
+You should activate your account by visiting this link in your web browser:
+{% url 'activate_invitation' token %}
+
+MBrace is a place to meet new people. Whether you're having a rough day,
+or just want to get coffee with someone new, MBrace makes it simple and
+easy to have random adventures.

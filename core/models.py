@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from celeryqueue.tasks import send_invitation_email
+
 
 class Hugger(models.Model):
     user = models.ForeignKey(User)
@@ -110,9 +112,8 @@ class Invite(models.Model):
     target_user = models.ForeignKey('Hugger', related_name='original_invitation_set', null=True)
 
     target_email = models.EmailField(null=False)
+    target_name = models.CharField(max_length=32)
     signup_token = models.CharField(max_length=32, unique=True)
 
     def send(self):
-        # FIXME: Make this forge out to celery to send an email with an invite
-        # or something idk.
-        pass
+        send_invitation_email(self)
