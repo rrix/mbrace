@@ -116,4 +116,6 @@ class Invite(models.Model):
     signup_token = models.CharField(max_length=32, unique=True)
 
     def send(self):
-        send_invitation_email(self)
+        send_invitation_email.delay(self)
+        self.originator.invite_count -= 1
+        self.originator.save()
