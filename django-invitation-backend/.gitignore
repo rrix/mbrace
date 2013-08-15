@@ -1,9 +1,0 @@
-*.py[oc]
-*.mo
-*.db
-cache/
-*.kdevelop
-*.kdevses
-*.egg-info
-MANIFEST
-build/
