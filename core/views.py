@@ -123,10 +123,10 @@ def edit_hug(request, hug_id):
                 if request.user == hug.user_in_need:
                     hug.delete()
                     messages.add_message(request, messages.INFO,
-                                          'Alright, let us know if you need a hug, okay?')
+                                         'Alright, let us know if you need a hug, okay?')
                 return HttpResponseRedirect(reverse('dashboard'))
             if action == 'clear_deliverer':
-                hug.user_delivering == None
+                hug.user_delivering = None
                 hug.save()
                 messages.add_message(request, messages.INFO,
                                      'Cool, we will let %s know!' % hug.user_in_need.username)
@@ -166,7 +166,6 @@ def edit_hug(request, hug_id):
             #, 'icon': static asset to image
         })
 
-
         user2_marker = maps.Marker(opts={
             'map': gmap,
             'position': maps.LatLng(u2_lat, u2_lon)
@@ -179,8 +178,9 @@ def edit_hug(request, hug_id):
                        'current_user': request.user})
     else:
         messages.add_message(request, messages.ERROR,
-                              "This page doesn't belong to you!" )
+                             "This page doesn't belong to you!")
         return HttpResponseRedirect(reverse('dashboard'))
+
 
 @login_required
 def new_message(request, hug_id):
