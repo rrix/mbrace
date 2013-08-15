@@ -1,8 +1,10 @@
 *.pyc
+
 /static/SCSS_CACHE
 /public/*
-
 .sass-cache
 
 mbrace/local_settings.py
 images/facebook_profiles
+
+celerybeat-schedule
