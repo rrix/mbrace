@@ -79,10 +79,16 @@ def new_hug(request):
     hugger = request.user
 
     if hugger.last_location != "":
-        new_hug = Meeting.objects.create(user_in_need=hugger)
-        hugger.last_hug_date = datetime.datetime.now()
-        hugger.save()
-        return HttpResponseRedirect(reverse('edit_hug', args=(new_hug.id,)))
+        hug = hugger.has_open_hugs()
+        if hug is None:
+            new_hug = Meeting.objects.create(user_in_need=hugger)
+            hugger.last_hug_date = datetime.datetime.now()
+            hugger.save()
+            return HttpResponseRedirect(reverse('edit_hug', args=(new_hug.id,)))
+        else:
+            messages.add_message(request, messages.ERROR,
+                                 'You are already getting a hug, we should take care of that one first.')
+            return HttpResponseRedirect(reverse('edit_hug', args=(hug.id,)))
     else:
         messages.add_message(request, messages.ERROR,
                              'Your browser does not seem to have geolocation enabled so we cannot reliably pinpoint your location!')

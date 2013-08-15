@@ -23,11 +23,12 @@ class Hugger(AbstractUser, FacebookProfileModel):
         This goes through the user's hugs, both requested and delivering, and
         makes sure that none of them are open.
         """
+        open_hug = None
         for meeting in self.requestor_set.all():
             if meeting.open(self) is True:
-                return True
+                open_hug = meeting
 
-        return False
+        return open_hug
 
     def display_name(self, requestor):
         """
