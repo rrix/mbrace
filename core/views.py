@@ -3,9 +3,10 @@ from django.core.urlresolvers import reverse
 from django.shortcuts import render
 from core.forms import *
 from core.models import *
+from registration.models import RegistrationProfile
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponseRedirect, HttpResponse
-from django.contrib.auth import login
+from django.contrib.auth import login, get_backends
 from gmapi import maps
 from django.contrib import messages
 
@@ -194,3 +195,16 @@ def new_message(request, hug_id):
         messages.add_message(request, messages.ERROR,
                              'You cannot send messages to that meeting!')
         return HttpResponseRedirect(reverse('dashboard'))
+
+
+# This is cargo'd from registration.backends.default.views, except we're also
+# logging the user in.
+def activate_user(request, activation_key):
+    activated_user = RegistrationProfile.objects.activate_user(activation_key)
+    if activated_user:
+        backend = get_backends()[0]
+        activated_user.backend = "%s.%s" % (backend.__module__, backend.__class__.__name__)
+        login(request, activated_user)
+        return render(request, "registration/activation_complete.html")
+    else:
+        return render(request, "registration/activate.html")
