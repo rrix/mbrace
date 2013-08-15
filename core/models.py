@@ -50,12 +50,14 @@ class Hugger(AbstractUser, FacebookProfileModel):
         phone number are added to a profile"""
         is_valid = True
 
-        if self.zip_code == "":
+        if self.zip_code is None:
             is_valid = False
-        if self.email == "":
+        if self.email is None:
             is_valid = False
-        if self.phone_number == "":
+        if self.phone_number is None:
             is_valid = False
+        if self.facebook_name is not None:
+            is_valid = True
 
         return is_valid
 

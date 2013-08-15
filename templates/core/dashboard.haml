@@ -6,7 +6,10 @@
 - block content
   .row
     .large-12.medium-12.small-12.columns
-      %h1 My Dashboard
+      %hgroup
+        %h1{style: 'display: inline'} My Dashboard
+        %h2.subheader
+          %small (logged in as {{ current_user.username }})
 
   - if user
     - if not user.filled_out
@@ -14,6 +17,13 @@
         .alert-box.alert
           You have not finished configuring your profile. You'll need to
           %a{class: 'white', href: '{% url "profile" current_user.id %}'} fill in your profile
+          or
+          %form{action: '{% url "facebook_connect" %}?facebook_login=1', method: 'post', style: 'display: inline'}
+            %a{ href: 'javascript:void(0);', onclick: 'F.connect(this.parentNode);'} sign in with your Facebook account
+            %input{ type: "hidden", value: "{% url 'dashboard' %}", name: "next"}
+            %input{ type: "hidden", value: "{% url 'dashboard' %}", name: "register_next"}
+            %input{ type: "hidden", value: "{{ request.path }}", name: "error_next"}
+            {% csrf_token %}
           before doing anything fun.
     - else
       .row
@@ -42,6 +52,10 @@
               %strong
                 %a{href: "{% url 'profile' hug.user_delivering.id %}"}= hug.user_delivering
               !
+        - empty
+          %i
+            Wow, your friends aren't up to anything it looks like. Why not
+            %a{href: "{% url 'new_hug' %}"} try to get together with someone?
 
     .large-6.medium-6.small-12.columns
       %h2 Nearby Activity
@@ -63,6 +77,10 @@
               %strong
                 %a{href: "{% url 'profile' hug.user_delivering.id %}"}= hug.user_delivering
               !
+        - empty
+          %i
+            No one around you is meeting up!
+            %a{href: "{% url 'new_hug' %}"} Let's fix that.
 
 
   .row
