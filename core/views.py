@@ -203,7 +203,8 @@ def activate_user(request, activation_key):
     activated_user = RegistrationProfile.objects.activate_user(activation_key)
     if activated_user:
         backend = get_backends()[0]
-        activated_user.backend = "%s.%s" % (backend.__module__, backend.__class__.__name__)
+        activated_user.backend = "%s.%s" % (backend.__module__,
+                                            backend.__class__.__name__)
         login(request, activated_user)
         return render(request, "registration/activation_complete.html")
     else:
