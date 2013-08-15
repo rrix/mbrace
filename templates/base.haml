@@ -33,13 +33,18 @@
               %li
                 %a{'href': "{%url 'dashboard'%}"} My Dashboard
             -else
-              %li
-                %form{action: '{% url "facebook_connect" %}?facebook_login=1', method: 'post'}
-                  %a{ class: 'button', href: 'javascript:void(0);', onclick: 'F.connect(this.parentNode);'} Sign In
-                  %input{ type: "hidden", value: "{% url 'dashboard' %}", name: "next"}
-                  %input{ type: "hidden", value: "{% url 'dashboard' %}", name: "register_next"}
-                  %input{ type: "hidden", value: "{{ request.path }}", name: "error_next"}
-                  {% csrf_token %}
+              %li.has-dropdown
+                %a{ href: '{% url "registration_register" %}'} Sign Up
+                %ul.dropdown
+                  %li
+                    %a{ href: '{% url "auth_login" %}'} Sign In
+                  %li
+                    %form{action: '{% url "facebook_connect" %}?facebook_login=1', method: 'post'}
+                      %a{ href: 'javascript:void(0);', onclick: 'F.connect(this.parentNode);'} Sign In With Facebook
+                      %input{ type: "hidden", value: "{% url 'dashboard' %}", name: "next"}
+                      %input{ type: "hidden", value: "{% url 'dashboard' %}", name: "register_next"}
+                      %input{ type: "hidden", value: "{{ request.path }}", name: "error_next"}
+                      {% csrf_token %}
             - if user.is_superuser
               %li
                 %a{ href: '{% url "admin:index" %}'} Administravia
