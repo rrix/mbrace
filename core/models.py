@@ -104,7 +104,6 @@ def associate_friends_from_opengraph(sender, user, friends, current_friends, ins
 
     Call out to celeryqueue to update the user relationships of friends
     """
-    if created:
-        celeryqueue.tasks.update_friends.delay(user=user)
+    celeryqueue.tasks.update_friends.delay(user=user)
 
 signals.facebook_post_store_friends.connect(associate_friends_from_opengraph)
