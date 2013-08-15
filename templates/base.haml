@@ -33,8 +33,10 @@
               %li
                 %a{'href': "{%url 'dashboard'%}"} My Dashboard
             -else
-              %li.has-dropdown
+              %li
                 %a{ href: '{% url "registration_register" %}'} Sign Up
+              %li.has-dropdown
+                %a{ href: '#'} Sign In
                 %ul.dropdown
                   %li
                     %a{ href: '{% url "auth_login" %}'} Sign In
@@ -49,10 +51,13 @@
               %li
                 %a{ href: '{% url "admin:index" %}'} Administravia
             %li.has-dropdown
-              %a{href: '/supportFIXME'} Support
+              %a{href: '#'} Help & Support
               %ul.dropdown
                 %li
+                  %a{href: '/supportFIXME'} Support
+                %li
                   %a{href: '/FAQFIXME'} FAQ
+                %li
                   %a{href: '/privacy_policyFIXME'} Privacy Policy
             -if user.is_authenticated
               %li
