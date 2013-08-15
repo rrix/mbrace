@@ -151,8 +151,6 @@ LOGGING = {
 
 LOGIN_URL = '/'
 
-from local_settings import *
-
 from django.contrib.messages import constants as messages
 MESSAGE_TAGS = {
     messages.INFO: '',
@@ -229,3 +227,10 @@ PIPELINE_JS_COMPRESSOR=None
 PIPELINE_COMPILERS = (
     'pipeline_compass.compass.CompassCompiler',
 )
+
+# Set this to django.core.mail.backends.smtp.SmtpBackend when you deploy
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+EMAIL_FROM = 'ryan@mbrace-dev.rix.si'
+
+from local_settings import *

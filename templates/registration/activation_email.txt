@@ -1,0 +1,10 @@
+Hey there!
+
+Thanks for signing up to {{site.name}}!
+
+To complete your registration, please head on over to this URl in your web
+browser and we'll get you all set up and ready to meet cool new folks.
+
+http://{{ site.domain }}{% url 'registration_activate' activation_key %}
+
+Your activation link is valid for the next {{ expiration_days }} days.
